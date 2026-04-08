@@ -1,0 +1,24 @@
+{
+  "name": "template-codespaces-html",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5500
+  ],
+    "postCreateCommand": [
+      "npm install -g http-server",
+      "npm install http-server",
+      "echo 'test create'"
+    ],
+    "postStartCommand": [
+      "npm install -g http-server",
+      "npm install http-server",
+      "echo 'test start'"
+    ]
+}

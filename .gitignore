@@ -1,0 +1,4 @@
+# Ignore all files in .vscode except those prefixed with !
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

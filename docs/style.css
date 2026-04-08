@@ -1,0 +1,285 @@
+/* style-enhanced-v1.0.0-modified */
+/* < =====================================================
+< Root Variables
+< ===================================================== */
+
+:root {
+
+  /* > =================================================== 
+  > Section I: Colour Palettes
+  > =================================================== */
+
+  /* ===================================================== 
+  Full Colour Palettes
+  ===================================================== */
+
+  --colour-neutral-50: #fafafa;
+  --colour-neutral-100: #f5f5f5;
+  --colour-neutral-200: #e5e5e5;
+  --colour-neutral-300: #d4d4d4;
+  --colour-neutral-400: #a3a3a3;
+  --colour-neutral-500: #737373;
+  --colour-neutral-600: #525252;
+  --colour-neutral-700: #404040;
+  --colour-neutral-800: #262626;
+  --colour-neutral-900: #171717;
+
+  --colour-warning-50: #fffbeb;
+  --colour-warning-100: #fef3c7;
+  --colour-warning-200: #fde68a;
+  --colour-warning-300: #fcd34d;
+  --colour-warning-400: #fbbf24;
+  --colour-warning-500: #f59e0b;
+  --colour-warning-600: #d97706;
+  --colour-warning-700: #b45309;
+  --colour-warning-800: #92400e;
+  --colour-warning-900: #78350f;
+
+  --colour-error-50: #fef2f2;
+  --colour-error-100: #fee2e2;
+  --colour-error-200: #fecaca;
+  --colour-error-300: #fca5a5;
+  --colour-error-400: #f87171;
+  --colour-error-500: #ef4444;
+  --colour-error-600: #dc2626;
+  --colour-error-700: #b91c1c;
+  --colour-error-800: #991b1b;
+  --colour-error-900: #7f1d1d;
+
+  --colour-success-50: #f0fdf4;
+  --colour-success-100: #dcfce7;
+  --colour-success-200: #bbf7d0;
+  --colour-success-300: #86efac;
+  --colour-success-400: #4ade80;
+  --colour-success-500: #22c55e;
+  --colour-success-600: #16a34a;
+  --colour-success-700: #15803d;
+  --colour-success-800: #166534;
+  --colour-success-900: #14532d;
+
+  --colour-info-50: #eff6ff;
+  --colour-info-100: #dbeafe;
+  --colour-info-200: #bfdbfe;
+  --colour-info-300: #93c5fd;
+  --colour-info-400: #60a5fa;
+  --colour-info-500: #3b82f6;
+  --colour-info-600: #2563eb;
+  --colour-info-700: #1d4ed8;
+  --colour-info-800: #1e40af;
+  --colour-info-900: #1e3a8a;
+
+  --colour-fuchsia-50: #fdf4ff;
+  --colour-fuchsia-100: #fae8ff;
+  --colour-fuchsia-200: #f5d0fe;
+  --colour-fuchsia-300: #f0abfc;
+  --colour-fuchsia-400: #e879f9;
+  --colour-fuchsia-500: #d946ef;
+  --colour-fuchsia-600: #c026d3;
+  --colour-fuchsia-700: #a21caf;
+  --colour-fuchsia-800: #86198f;
+  --colour-fuchsia-900: #701a75;
+
+  --colour-sky-50: #f0f9ff;
+  --colour-sky-100: #e0f2fe;
+  --colour-sky-200: #bae6fd;
+  --colour-sky-300: #7dd3fc;
+  --colour-sky-400: #38bdf8;
+  --colour-sky-500: #0ea5e9;
+  --colour-sky-600: #0284c7;
+  --colour-sky-700: #0369a1;
+  --colour-sky-800: #075985;
+  --colour-sky-900: #0c4a6e;
+
+  --colour-slate-50: hsl(210, 40%, 98%);
+  --colour-slate-100: hsl(210, 40%, 96.1%);
+  --colour-slate-200: hsl(214, 32.9%, 91.4%);
+  --colour-slate-300: hsl(213, 27%, 84.5%);
+  --colour-slate-400: hsl(215, 20.2%, 65.1%);
+  --colour-slate-500: hsl(215, 16.3%, 46.9%);
+  --colour-slate-600: hsl(215, 19.3%, 34.5%);
+  --colour-slate-700: hsl(215, 25%, 26.7%);
+  --colour-slate-800: hsl(217, 33.3%, 17.5%);
+  --colour-slate-900: hsl(222, 47.4%, 11.2%);
+  --colour-slate-950: hsl(228, 84%, 4.9%);
+
+  /* ===================================================== 
+  Partial Colour Palettes
+  ===================================================== */
+
+  --colour-rose-500: #f43f5e;
+  --colour-pink-500: #ec4899;
+  --colour-purple-500: #a855f7;
+  --colour-violet-500: #8b5cf6;
+  --colour-indigo-500: #6366f1;
+  --colour-blue-500: #3b82f6;
+  --colour-cyan-500: #06b6d4;
+  --colour-teal-500: #14b8a6;
+  --colour-emerald-500: #10b981;
+  --colour-green-500: #22c55e;
+  --colour-lime-500: #84cc16;
+  --colour-yellow-500: #eab308;
+  --colour-amber-500: #f59e0b;
+  --colour-orange-500: #f97316;
+  --colour-red-500: #ef4444;
+  --colour-stone-500: #78716c;
+  --colour-zinc-500: #71717a;
+
+  /* ===================================================== 
+  Custom Colours
+  ===================================================== */
+
+  --colour-custom-01: rgb(85, 94, 104);
+
+  /* > =================================================== 
+  > Section II: Fonts
+  > =================================================== */
+
+  /* ===================================================== 
+  Font Families
+  ===================================================== */
+
+  --font-family-sans: Inter, 'Segoe UI', sans-serif;
+  --font-family-roboto: Roboto, Arial, sans-serif;
+  --font-family-montserrat: Montserrat, 'Trebuchet MS', sans-serif;
+  --font-family-serif: Georgia, 'Times New Roman', serif;
+  --font-family-mono: 'Courier New', Courier, monospace;
+  --font-family-cursive: 'Comic Sans MS', cursive, sans-serif;
+
+  /* ===================================================== 
+  Font Variables
+  ===================================================== */
+
+  --font-size: 16px;
+  --font-family: var(--font-family-mono);
+  --font-weight: 400;
+
+  /* > =================================================== 
+  > Section III: Theme
+  > =================================================== */
+
+  /* ===================================================== 
+  Theme Variables
+  ===================================================== */
+
+  --theme-text: var(--colour-neutral-300);
+  --theme-text-soft: var(--colour-sky-400);
+  --theme-text-rich: var(--colour-sky-200);
+
+  --theme-accent: var(--colour-fuchsia-500);
+  --theme-accent-soft: var(--colour-fuchsia-400);
+  --theme-accent-rich: var(--colour-fuchsia-600);
+
+  --theme-foreground: var(--colour-success-500);
+  --theme-foreground-soft: var(--colour-success-400);
+  --theme-foreground-rich: var(--colour-success-600);
+
+  --theme-background: var(--colour-neutral-800);
+  --theme-background-soft: var(--colour-neutral-700);
+  --theme-background-rich: var(--colour-neutral-900);
+
+  --theme-shadow: inset 0 0 0 2px var(--colour-fuchsia-500);
+  --theme-scrollbar: var(--colour-custom-01) transparent;
+
+  /* << ================================================== 
+  << Section IV: Project
+  << ================================================== */
+
+}
+
+/* < ===================================================
+< HTML & Body Styling
+< =================================================== */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  scrollbar-color: var(--theme-scrollbar);
+}
+
+/* < =================================================== <
+< Wildcard Styling
+< =================================================== < */
+
+* {
+  scrollbar-color: var(--theme-scrollbar);
+  /* box-sizing: border-box; */
+  /* margin: 0px; */
+  /* padding: 0px; */
+  /* box-shadow: var(--theme-shadow); */
+  /* color-scheme: dark; */
+}
+
+/* < =================================================== <
+< Utility Classes
+< =================================================== < */
+
+.hidden {
+  display: none !important;
+}
+
+.locked {
+  filter: blur(5px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.transparent {
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.flex-h {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px;
+}
+
+.flex-v {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px;
+}
+
+/* < =================================================== <
+< Page Element Styling
+< =================================================== < */
+
+#page {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  background-color: transparent;
+}
+
+/* << ====================================================
+<< Project Styling
+<< ==================================================== */
