@@ -200,9 +200,9 @@ footer {
         visibility: hidden;
         width: 100%;
         height: 100vh;
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
         flex-direction: column;
         align-items: center;
         justify-content: center;
