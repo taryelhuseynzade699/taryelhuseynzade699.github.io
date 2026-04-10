@@ -91,6 +91,11 @@ nav a:hover {
     background: #1d4ed8;
 }
 
+.btn:active {
+    transform: scale(0.96);
+    transition: transform 0.1s;
+}
+
 .btn-red {
     background-color: #ff0000;
 }
