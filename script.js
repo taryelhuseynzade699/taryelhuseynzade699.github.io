@@ -39,3 +39,48 @@ window.addEventListener('scroll', () => {
         progressBar.style.width = scrolled + "%";
     }
 });
+
+// Mövzu (Theme) İdarəetməsi
+const themeBtns = {
+    light: document.getElementById('theme-light'),
+    dark: document.getElementById('theme-dark'),
+    system: document.getElementById('theme-system')
+};
+
+function applyTheme(theme) {
+    document.body.classList.remove('dark-mode');
+    
+    let targetTheme = theme;
+    if (theme === 'system') {
+        targetTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    if (targetTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Aktiv düyməni vizual olaraq fərqləndir
+    Object.keys(themeBtns).forEach(key => {
+        if (themeBtns[key]) {
+            themeBtns[key].classList.toggle('theme-active', key === theme);
+        }
+    });
+
+    localStorage.setItem('site-theme', theme);
+}
+
+// İlkin mövzunu yüklə
+const savedTheme = localStorage.getItem('site-theme') || 'system';
+applyTheme(savedTheme);
+
+// Düymə kliklərini dinlə
+if (themeBtns.light) {
+    themeBtns.light.addEventListener('click', () => applyTheme('light'));
+    themeBtns.dark.addEventListener('click', () => applyTheme('dark'));
+    themeBtns.system.addEventListener('click', () => applyTheme('system'));
+}
+
+// Sistem tənzimləməsi dəyişdikdə avtomatik yenilə
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (localStorage.getItem('site-theme') === 'system') applyTheme('system');
+});
