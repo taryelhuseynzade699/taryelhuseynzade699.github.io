@@ -117,6 +117,9 @@ nav a:hover {
 }
 
 .project-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
