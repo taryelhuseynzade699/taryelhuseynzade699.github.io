@@ -84,3 +84,23 @@ if (themeBtns.light) {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     if (localStorage.getItem('site-theme') === 'system') applyTheme('system');
 });
+
+// Paylaş düyməsi funksionallığı
+const shareBtn = document.getElementById('shareBtn');
+if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                });
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Məqalə linki kopyalandı!');
+            }
+        } catch (err) {
+            console.log('Paylaşım zamanı xəta:', err);
+        }
+    });
+}
