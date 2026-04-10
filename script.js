@@ -28,3 +28,14 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealElements.forEach(el => {
     revealObserver.observe(el);
 });
+
+// Oxunma tərəqqi çubuğu funksionallığı
+window.addEventListener('scroll', () => {
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + "%";
+    }
+});

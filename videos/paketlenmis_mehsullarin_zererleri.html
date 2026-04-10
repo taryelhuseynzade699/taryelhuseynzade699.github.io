@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="icon.png">
     <style>
         .video-wrapper {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -32,7 +32,20 @@
 </head>
 <body>
     <header>
-        <div class="logo"><a href="../index.html" style="text-decoration: none; color: white;">Taryel Hüseynzadə</a></div>
+        <a href="../index.html" class="logo">Taryel Hüseynzadə</a>
+        <nav>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="../index.html#meqaleler">Məqalələr</a>
+                <a href="../index.html#videolar">Videolar</a>
+                <a href="../index.html#haqqinda">Haqqında</a>
+                <a href="../settings.html">Parametrlər</a>
+            </div>
+        </nav>
     </header>
 
     <section class="section" style="padding-top: 120px;">
@@ -41,8 +54,9 @@
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/PP5BympxEUQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="../index.html#videolar" class="btn">Geri qayıt</a>
+            <div class="video-description">
+                <h3>Video Haqqında</h3>
+                <p>Emal olunmuş qidaların sağlamlığımıza təsiri haqqında maarifləndirici video icmal. Paketlənmiş məhsulların tərkibindəki gizli təhlükələr, qatqı maddələri və onlardan qorunma yolları haqqında ətraflı məlumat əldə edə bilərsiniz.</p>
             </div>
         </div>
     </section>
@@ -51,5 +65,7 @@
         <p>&copy; 2026 Taryel Hüseynzadə. Bütün hüquqlar qorunur.</p>
         <p>Sayt GitHub Pages tərəfindən yayımlanır.</p>
     </footer>
+
+    <script src="../script.js" defer></script>
 </body>
 </html>
