@@ -1,2 +1,4 @@
+User-agent: *
 Allow: /
+
 Sitemap: https://taryelhuseynzade699.github.io
