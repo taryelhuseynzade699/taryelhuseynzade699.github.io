@@ -1,4 +1,4 @@
 User-agent: *
-Allow: /
+Disallow:
 
-Sitemap: https://taryelhuseynzade699.github.io
+Sitemap: https://taryelhuseynzade699.github.io/sitemap.xml
