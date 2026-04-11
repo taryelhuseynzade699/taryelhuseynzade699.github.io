@@ -104,3 +104,21 @@ if (shareBtn) {
         }
     });
 }
+
+// İzləmə sayını simulyasiya edən funksiya
+function initViewCounter() {
+    const viewDisplay = document.getElementById('viewCountValue');
+    if (viewDisplay) {
+        const pageId = window.location.pathname;
+        const storageKey = `views_${pageId}`;
+        
+        // Mövcud sayını al və artır (Database olmadığı üçün LocalStorage istifadə edilir)
+        let views = parseInt(localStorage.getItem(storageKey)) || Math.floor(Math.random() * 100) + 50; 
+        views++;
+        
+        localStorage.setItem(storageKey, views);
+        viewDisplay.textContent = views.toLocaleString();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initViewCounter);
