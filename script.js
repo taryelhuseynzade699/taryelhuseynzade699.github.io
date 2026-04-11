@@ -106,18 +106,21 @@ if (shareBtn) {
 }
 
 // İzləmə sayını simulyasiya edən funksiya
-function initViewCounter() {
+async function initViewCounter() {
     const viewDisplay = document.getElementById('viewCountValue');
     if (viewDisplay) {
         const pageId = window.location.pathname;
-        const storageKey = `views_${pageId}`;
         
-        // Mövcud sayını al və artır (Database olmadığı üçün LocalStorage istifadə edilir)
-        let views = parseInt(localStorage.getItem(storageKey)) || Math.floor(Math.random() * 100) + 50; 
-        views++;
-        
-        localStorage.setItem(storageKey, views);
-        viewDisplay.textContent = views.toLocaleString();
+        try {
+            // Backend API URL (Məsələn: Render-də yayımladığınız ünvan)
+            const API_URL = 'https://taryelhuseynzade699-github-io.onrender.com';
+            const response = await fetch(`${API_URL}?pageId=${encodeURIComponent(pageId)}`);
+            const data = await response.json();
+            viewDisplay.textContent = data.views.toLocaleString();
+        } catch (err) {
+            console.error('İzləmə sayı onlayn alına bilmədi:', err);
+            viewDisplay.textContent = '...';
+        }
     }
 }
 
