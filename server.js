@@ -8,9 +8,15 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB-yə qoşulma (MONGODB_URI-ni Render-də Environment Variable olaraq əlavə edin)
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio_views')
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+    console.error("XƏTA: MONGODB_URI dəyişəni təyin edilməyib!");
+}
+
+mongoose.connect(MONGODB_URI)
     .then(() => console.log('MongoDB-yə qoşuldu.'))
-    .catch(err => console.error('Bağlantı xətası:', err));
+    .catch(err => console.error('MongoDB bağlantı xətası:', err));
 
 // Baxış sayı üçün sxem (Schema)
 const viewSchema = new mongoose.Schema({
