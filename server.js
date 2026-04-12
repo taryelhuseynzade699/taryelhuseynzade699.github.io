@@ -1,30 +1,39 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
+const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = 'views.json';
 
 app.use(cors());
 app.use(express.json());
 
-// Məlumatları fayldan oxu
-let viewData = {};
-if (fs.existsSync(DATA_FILE)) {
-    viewData = JSON.parse(fs.readFileSync(DATA_FILE));
-}
+// MongoDB-yə qoşulma (MONGODB_URI-ni Render-də Environment Variable olaraq əlavə edin)
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio_views')
+    .then(() => console.log('MongoDB-yə qoşuldu.'))
+    .catch(err => console.error('Bağlantı xətası:', err));
 
-app.get('/api/views', (req, res) => {
+// Baxış sayı üçün sxem (Schema)
+const viewSchema = new mongoose.Schema({
+    pageId: { type: String, required: true, unique: true },
+    count: { type: Number, default: 0 }
+});
+
+const View = mongoose.model('View', viewSchema);
+
+app.get('/api/views', async (req, res) => {
     const pageId = req.query.pageId || 'home';
     
-    // İzləmə sayını artır
-    viewData[pageId] = (viewData[pageId] || 0) + 1;
-    
-    // Fayla qeyd et
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(viewData, null, 2));
-        res.json({ views: viewData[pageId] });
+        // Əgər səhifə yoxdursa yaradır, varsa sayını 1 vahid artırır ($inc)
+        const result = await View.findOneAndUpdate(
+            { pageId: pageId },
+            { $inc: { count: 1 } },
+            { upsert: true, new: true }
+        );
+        
+        res.json({ views: result.count });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: 'Məlumat saxlanıla bilmədi' });
     }
 });

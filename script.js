@@ -112,8 +112,8 @@ async function initViewCounter() {
         const pageId = window.location.pathname;
         
         try {
-            // Backend API URL (Məsələn: Render-də yayımladığınız ünvan)
-            const API_URL = 'https://api.render.com/deploy/srv-d7d7q5a8qa3s73bftos0?key=JZrnHNu6g6Y';
+            // Render-dəki "Web Service" URL-ini və sonuna /api/views əlavə edin
+            const API_URL = 'https://taryelhuseynzade699-github-io.onrender.com/api/views';
             const response = await fetch(`${API_URL}?pageId=${encodeURIComponent(pageId)}`);
             const data = await response.json();
             viewDisplay.textContent = data.views.toLocaleString();
