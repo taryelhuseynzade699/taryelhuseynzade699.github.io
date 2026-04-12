@@ -1,5 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://taryelhuseynzade699.github.io/sitemap.xml
-Sitemap: https://taryelhuseynzade699.github.io/ror.xml
