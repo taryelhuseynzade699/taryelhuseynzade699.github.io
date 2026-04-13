@@ -15,6 +15,11 @@ if (!MONGODB_URI) {
 }
 
 mongoose.connect(MONGODB_URI)
+    const mongoose = require("mongoose");
+
+    mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("MongoDB qoşuldu"))
+    .catch(err => console.log(err));
     .then(() => console.log('MongoDB-yə qoşuldu.'))
     .catch(err => console.error('MongoDB bağlantı xətası:', err));
 

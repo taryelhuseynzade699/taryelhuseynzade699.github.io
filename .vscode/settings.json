@@ -1,4 +1,7 @@
 {
   "liveServer.settings.port": 8080,
-  "liveServer.settings.donotShowInfoMsg": true
+  "liveServer.settings.donotShowInfoMsg": true,
+  "github-actions.workflows.pinned.workflows": [
+    "dynamic/pages/pages-build-deployment"
+  ]
 }
