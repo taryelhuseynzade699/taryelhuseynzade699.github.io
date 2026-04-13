@@ -1,54 +1,50 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+require('dotenv').config();
 
-app.use(cors());
+const app = express();
+
+// Middleware tənzimləmələri
+app.use(cors()); // GitHub Pages-dən gələn sorğulara icazə vermək üçün
 app.use(express.json());
 
-// MongoDB-yə qoşulma (MONGODB_URI-ni Render-də Environment Variable olaraq əlavə edin)
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-    console.error("XƏTA: MONGODB_URI dəyişəni təyin edilməyib!");
-}
-
-mongoose.connect(MONGODB_URI)
-    const mongoose = require("mongoose");
-
-    mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB qoşuldu"))
-    .catch(err => console.log(err));
-    .then(() => console.log('MongoDB-yə qoşuldu.'))
+// MongoDB-yə qoşulma
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('MongoDB bağlantısı uğurludur'))
     .catch(err => console.error('MongoDB bağlantı xətası:', err));
 
-// Baxış sayı üçün sxem (Schema)
-const viewSchema = new mongoose.Schema({
+// Verilənlər bazası sxemi (Schema)
+const pageSchema = new mongoose.Schema({
     pageId: { type: String, required: true, unique: true },
-    count: { type: Number, default: 0 }
+    views: { type: Number, default: 0 }
 });
 
-const View = mongoose.model('View', viewSchema);
+const Page = mongoose.model('Page', pageSchema);
 
-app.get('/api/views', async (req, res) => {
-    const pageId = req.query.pageId || 'home';
-    
+// Baxış sayını artıran və qaytaran API Endpoint
+app.post('/api/views', async (req, res) => {
+    const { pageId, increment } = req.body;
+
+    if (!pageId) {
+        return res.status(400).json({ error: 'pageId tələb olunur' });
+    }
+
     try {
-        // Əgər səhifə yoxdursa yaradır, varsa sayını 1 vahid artırır ($inc)
-        const result = await View.findOneAndUpdate(
-            { pageId: pageId },
-            { $inc: { count: 1 } },
-            { upsert: true, new: true }
-        );
+        // Əgər increment true-dursa 1 vahid artır, deyilsə sadəcə mövcud sayı gətir
+        const update = increment ? { $inc: { views: 1 } } : {};
         
-        res.json({ views: result.count });
+        const page = await Page.findOneAndUpdate(
+            { pageId: pageId },
+            update,
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        res.json({ views: page.views });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Məlumat saxlanıla bilmədi' });
+        res.status(500).json({ error: 'Server xətası baş verdi' });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server ${PORT} portunda işləyir.`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server ${PORT} portunda işləyir`));

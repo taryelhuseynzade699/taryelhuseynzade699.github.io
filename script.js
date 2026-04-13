@@ -110,13 +110,27 @@ async function initViewCounter() {
     const viewDisplay = document.getElementById('viewCountValue');
     if (viewDisplay) {
         const pageId = window.location.pathname;
+        const hasVisited = sessionStorage.getItem(`visited_${pageId}`);
         
         try {
-            // Render-dəki "Web Service" URL-ini və sonuna /api/views əlavə edin
             const API_URL = 'https://taryelhuseynzade699-github-io.onrender.com/api/views';
-            const response = await fetch(`${API_URL}?pageId=${encodeURIComponent(pageId)}`);
+            
+            // Əgər istifadəçi bu sessiyada ilk dəfə daxil olubsa, POST ilə say artırılır
+            // Əks halda sadəcə mövcud sayı oxumaq üçün GET (və ya başqa məntiq) istifadə edilə bilər
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    pageId: pageId,
+                    increment: !hasVisited // Yalnız ilk dəfə gəlibsə artır
+                })
+            });
+
             const data = await response.json();
             viewDisplay.textContent = data.views.toLocaleString();
+            sessionStorage.setItem(`visited_${pageId}`, 'true');
         } catch (err) {
             console.error('İzləmə sayı onlayn alına bilmədi:', err);
             viewDisplay.textContent = '...';
