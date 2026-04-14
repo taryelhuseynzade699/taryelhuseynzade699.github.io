@@ -202,12 +202,12 @@ nav a:hover {
 
 /* Tünd Rejim Stilləri */
 body.dark-mode {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: #000;
     color: #f8fafc;
 }
 
 body.dark-mode header {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -228,7 +228,7 @@ body.dark-mode .logo:hover {
 
 body.dark-mode .project-card,
 body.dark-mode .article-content {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(28, 28, 28, 0.9);
     border-color: rgba(255, 255, 255, 0.1);
     color: #f8fafc;
 }
@@ -296,7 +296,7 @@ footer {
 
 /* Sinema Rejimi (Cinema Mode) */
 .cinema-mode {
-    background: #0f172a !important; /* Tünd göy/qara fon */
+    background: #000 !important; /* Qara fon */
     color: #f8fafc;
     transition: background 0.5s ease;
 }
