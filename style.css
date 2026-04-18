@@ -245,7 +245,8 @@ body.dark-mode .article-content strong {
     color: #ffffff;
 }
 
-body.dark-mode .publish-date {
+body.dark-mode .publish-date,
+body.dark-mode .view-count {
     color: #94a3b8;
     opacity: 1;
 }
