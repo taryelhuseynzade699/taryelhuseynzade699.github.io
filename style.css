@@ -245,7 +245,6 @@ body.dark-mode .article-content strong {
     color: #ffffff;
 }
 
-body.dark-mode .view-count,
 body.dark-mode .publish-date {
     color: #94a3b8;
     opacity: 1;
@@ -284,14 +283,17 @@ footer {
     margin-bottom: 20px;
 }
 
-.view-count,
-.publish-date {
+.publish-date, .view-count {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 0.95rem;
     color: var(--text-color);
     opacity: 0.8;
+}
+
+.view-count svg {
+    margin-right: 2px;
 }
 
 /* Sinema Rejimi (Cinema Mode) */
