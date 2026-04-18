@@ -1,7 +1,7 @@
-// Firebase SDK-dan lazım olan funksiyaları import edin
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, doc, updateDoc, increment, getDoc, setDoc } from "firebase/firestore";
+// Firebase SDK-larını CDN vasitəsilə import edin
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+import { getFirestore, doc, updateDoc, increment, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Veb tətbiqinizin Firebase konfiqurasiyası
 const firebaseConfig = {
@@ -24,8 +24,7 @@ const db = getFirestore(app);
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 
 /**
- * Səhifə və ya layihə üçün baxış sayını artırır
- * @param {string} pageId - Səhifənin və ya layihənin unikal ID-si
+ * Səhifə üçün baxış sayını artırır
  */
 export const updateViewCount = async (pageId) => {
   const docRef = doc(db, "views", pageId);

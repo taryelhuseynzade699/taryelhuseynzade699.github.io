@@ -1,19 +1,24 @@
+import { updateViewCount, db, doc, getDoc } from './firebase.js';
+
+console.log("Script loaded and running...");
+
+// Menyunun açılıb-bağlanması
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
-// Menyunun açılıb-bağlanması
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
-
-// Linkə kliklədikdə menyunun bağlanması
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
+if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
     });
-});
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+    });
+}
 
 // Scroll zamanı elementlərin üzə çıxması
 const revealElements = document.querySelectorAll('.reveal');
@@ -105,35 +110,43 @@ if (shareBtn) {
     });
 }
 
-// İzləmə sayını simulyasiya edən funksiya
+import { updateViewCount, db, doc, getDoc } from './firebase.js';
+
+// İzləmə sayını Firebase ilə idarə edən funksiya
 async function initViewCounter() {
     const viewDisplay = document.getElementById('viewCountValue');
     if (viewDisplay) {
-        const pageId = window.location.pathname;
+        // Səhifənin unikal ID-si kimi pathname-i götürürük
+        let path = window.location.pathname;
+        let pageId = path.split('/').pop().replace('.html', '');
+        
+        // Əgər ana səhifədirsə (/)
+        if (!pageId || pageId === 'index' || path === '/') {
+            pageId = 'home';
+        }
+        
         const hasVisited = sessionStorage.getItem(`visited_${pageId}`);
         
         try {
-            const API_URL = 'https://taryelhuseynzade699-github-io.onrender.com/api/views';
+            const docRef = doc(db, "views", pageId);
             
-            // Əgər istifadəçi bu sessiyada ilk dəfə daxil olubsa, POST ilə say artırılır
-            // Əks halda sadəcə mövcud sayı oxumaq üçün GET (və ya başqa məntiq) istifadə edilə bilər
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    pageId: pageId,
-                    increment: !hasVisited // Yalnız ilk dəfə gəlibsə artır
-                })
-            });
+            // İlk baxışdırsa artır
+            if (!hasVisited) {
+                await updateViewCount(pageId);
+                sessionStorage.setItem(`visited_${pageId}`, 'true');
+            }
 
-            const data = await response.json();
-            viewDisplay.textContent = data.views.toLocaleString();
-            sessionStorage.setItem(`visited_${pageId}`, 'true');
+            // Sayı göstər
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                viewDisplay.textContent = docSnap.data().count.toLocaleString();
+            } else {
+                // Əgər sənəd hələ yoxdursa və yenicə yaradılıbsa 1 göstər
+                viewDisplay.textContent = '1';
+            }
         } catch (err) {
-            console.error('İzləmə sayı onlayn alına bilmədi:', err);
-            viewDisplay.textContent = '...';
+            console.error('Firebase izləmə sayı xətası:', err);
+            viewDisplay.textContent = '0';
         }
     }
 }
