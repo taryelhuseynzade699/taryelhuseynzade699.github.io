@@ -15,6 +15,9 @@
     <header>
         <a href="../index.html" class="logo">Taryel Hüseynzadə</a>
         <nav>
+            <a href="#" class="search-icon" aria-label="Axtar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -25,36 +28,33 @@
                 <a href="../index.html#videolar">Videolar</a>
                 <a href="../index.html#haqqinda">Haqqında</a>
                 <a href="../settings.html">Parametrlər</a>
-                <a href="javascript:void(0)" id="searchBtnHeader" style="display: flex; align-items: center; gap: 5px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </a>
             </div>
         </nav>
     </header>
 
-    <!-- Axtarış Overlay -->
-    <div id="searchOverlay" class="search-overlay">
-        <div class="search-container">
-            <div class="search-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="searchInput" placeholder="Məqalə və ya video axtar..." autocomplete="off">
-                <button id="closeSearch">×</button>
-            </div>
-            <div id="searchResults" class="search-results"></div>
-        </div>
-    </div>
-
     <div class="article-content">
         <h1>Uşaqların beyin inkişafı üçün nə etmək lazımdır?</h1>
         <div class="article-meta">
-            <span class="publish-date">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                14 Aprel, 2026
-            </span>
-            <span class="view-count">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                <span id="viewCount">...</span> baxış
-            </span>
+            <div class="meta-row">
+                <span class="publish-date">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    14 Aprel, 2026
+                </span>
+                <span class="publish-date">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    3 dəq oxunma
+                </span>
+            </div>
+            <div class="meta-row">
+                <span class="publish-date">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Taryel Hüseynzadə
+                </span>
+                <span class="view-count">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span id="viewCount">...</span> baxış
+                </span>
+            </div>
         </div>
 
         <img src="../images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg" alt="Uşaqların beyin inkişafı" class="article-img">
@@ -92,6 +92,55 @@
                 Paylaş
             </button>
         </div>
+
+        <div class="article-rating">
+            <h3>Bu məqaləni qiymətləndirin</h3>
+            <div class="rating-stars">
+                <span data-rating="5">★</span>
+                <span data-rating="4">★</span>
+                <span data-rating="3">★</span>
+                <span data-rating="2">★</span>
+                <span data-rating="1">★</span>
+            </div>
+            <p id="avgRating" class="rating-message" style="margin-top: 5px; opacity: 0.8; font-size: 0.9rem;"></p>
+            <p id="ratingMessage" class="rating-message"></p>
+        </div>
+    </div>
+
+    <!-- Axtarış Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <div class="search-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Məqalə və ya video axtar...">
+                <button id="voiceSearch" class="voice-search-btn" title="Səslə axtar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                </button>
+                <button class="clear-search" id="clearSearch" title="Təmizlə">&times;</button>
+                <button id="closeSearch" style="margin-left: 10px;">&times;</button>
+            </div>
+            <div class="recent-searches" id="recentSearches" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <p style="margin-bottom: 0;">Son axtarışlar:</p>
+                    <button id="clearHistory" style="background: none; border: none; color: var(--primary-color); font-size: 0.8rem; cursor: pointer; opacity: 0.7;">Təmizlə</button>
+                </div>
+                <div class="recent-tags">
+                    <!-- Son axtarışlar bura gələcək -->
+                </div>
+            </div>
+            <div class="trending-searches" id="trendingSearches">
+                <p>Trend olan axtarışlar:</p>
+                <div class="trending-tags">
+                    <span class="trending-tag">Qidalanma</span>
+                    <span class="trending-tag">Yuxu rejimi</span>
+                    <span class="trending-tag">Beyin inkişafı</span>
+                    <span class="trending-tag">Muğam</span>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Nəticələr bura gələcək -->
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -99,7 +148,8 @@
         <p>Sayt GitHub Pages tərəfindən yayımlanır.</p>
     </footer>
 
-    <script src="../script.js" defer></script>
+    <script src="../script.js" type="module"></script>
     <script src="../firebase-views.js" type="module"></script>
+    <script src="../firebase-ratings.js" type="module"></script>
 </body>
 </html>

@@ -30,6 +30,9 @@
     <header>
         <a href="../index.html" class="logo">Taryel Hüseynzadə</a>
         <nav>
+            <a href="#" class="search-icon" aria-label="Axtar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -40,24 +43,9 @@
                 <a href="../index.html#videolar">Videolar</a>
                 <a href="../index.html#haqqinda">Haqqında</a>
                 <a href="../settings.html">Parametrlər</a>
-                <a href="javascript:void(0)" id="searchBtnHeader" style="display: flex; align-items: center; gap: 5px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </a>
             </div>
         </nav>
     </header>
-
-    <!-- Axtarış Overlay -->
-    <div id="searchOverlay" class="search-overlay">
-        <div class="search-container">
-            <div class="search-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="searchInput" placeholder="Məqalə və ya video axtar..." autocomplete="off">
-                <button id="closeSearch">×</button>
-            </div>
-            <div id="searchResults" class="search-results"></div>
-        </div>
-    </div>
 
     <section class="section cinema-mode" style="padding: 120px 0; min-height: 100vh;">
         <div class="video-wrapper">
@@ -80,6 +68,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Axtarış Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <div class="search-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Məqalə və ya video axtar...">
+                <button class="clear-search" id="clearSearch" title="Təmizlə">&times;</button>
+                <button id="closeSearch" style="margin-left: 10px;">&times;</button>
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Nəticələr bura gələcək -->
+            </div>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2026 Taryel Hüseynzadə. Bütün hüquqlar qorunur.</p>

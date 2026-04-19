@@ -105,103 +105,359 @@ if (shareBtn) {
     });
 }
 
-// Axtarış Funksionallığı
-const searchBtnHeader = document.getElementById('searchBtnHeader');
+// Axtarış Overlay funksionallığı
+const searchIcon = document.querySelector('.search-icon');
 const searchOverlay = document.getElementById('searchOverlay');
 const closeSearch = document.getElementById('closeSearch');
 const searchInput = document.getElementById('searchInput');
+const clearSearch = document.getElementById('clearSearch');
+const searchBox = document.querySelector('.search-box');
 const searchResults = document.getElementById('searchResults');
+const trendingSearches = document.getElementById('trendingSearches');
+const trendingTags = document.querySelectorAll('.trending-tag');
+const recentSearches = document.getElementById('recentSearches');
+const recentTags = document.querySelector('.recent-tags');
+const clearHistory = document.getElementById('clearHistory');
+const voiceSearchBtn = document.getElementById('voiceSearch');
+let searchTimeout;
 
-if (searchBtnHeader && searchOverlay) {
-    searchBtnHeader.addEventListener('click', () => {
+// Axtarış üçün məlumat bazası
+const siteContent = [
+    {
+        title: "Uşaqların düzgün qidalanması necə olmalıdır?",
+        desc: "Uşaqların sağlam böyüməsi və inkişafı üçün düzgün qidalanmanın əhəmiyyəti və faydalı tövsiyələr.",
+        url: "articles/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.html",
+        img: "images/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.jpg",
+        type: "Məqalə",
+        readTime: "5 dəq"
+    },
+    {
+        title: "Uşaqların düzgün yuxu rejimi necə olmalıdır?",
+        desc: "Uşaqların fiziki və zehni inkişafı üçün yuxunun əhəmiyyəti və düzgün rejim qurma yolları.",
+        url: "articles/usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.html",
+        img: "images/usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.jpg",
+        type: "Məqalə",
+        readTime: "4 dəq"
+    },
+    {
+        title: "Uşaqların beyin inkişafı üçün nə etmək lazımdır?",
+        desc: "Erkən yaşda beyin inkişafını dəstəkləyən ən effektiv üsullar və tövsiyələr.",
+        url: "articles/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html",
+        img: "images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg",
+        type: "Məqalə",
+        readTime: "3 dəq"
+    },
+    {
+        title: "Uşağı danışdırmaq üçün nə etməliyik?",
+        desc: "Uşaqların nitq inkişafı və valideynlərin bu prosesdəki rolu haqqında ətraflı məqalə.",
+        url: "articles/usagi_danisdirmaq_ucun_ne_etmeliyik.html",
+        img: "images/valideyn.jpg",
+        type: "Məqalə",
+        readTime: "3 dəq"
+    },
+    {
+        title: "Paketlənmiş məhsulların zərərləri",
+        desc: "Müasir dövrün ən böyük problemlərindən biri olan emal olunmuş qidaların sağlamlığımıza təsiri haqqında.",
+        url: "articles/paketlenmis_mehsullarin_zererleri.html",
+        img: "images/paketlenmis_mehsullarin_zererleri.jpg",
+        type: "Məqalə",
+        readTime: "6 dəq"
+    },
+    {
+        title: "Paketlənmiş məhsulların zərərləri (Video)",
+        desc: "Emal olunmuş qidaların sağlamlığımıza təsiri haqqında maarifləndirici video icmal.",
+        url: "videos/paketlenmis_mehsullarin_zererleri.html",
+        img: "https://i.ytimg.com/vi_webp/PP5BympxEUQ/mqdefault.webp",
+        type: "Video"
+    },
+    {
+        title: "Bayatı kürd muğamı",
+        desc: "Azərbaycan muğam sənətinin incilərindən olan Bayatı kürd muğamının ifası.",
+        url: "videos/bayati_kurd_mugami.html",
+        img: "https://i.ytimg.com/vi/9kLzT0T1mxM/mqdefault.jpg?sqp=-oaymwEmCMACELQB8quKqQMa8AEB-AHOBYACgAqKAgwIABABGGUgVChGMA8=&rs=AOn4CLBel09-_L2np6GrrPPX7Se3zL8bCA",
+        type: "Video"
+    }
+];
+
+if (searchIcon && searchOverlay) {
+    searchIcon.addEventListener('click', (e) => {
+        e.preventDefault();
         searchOverlay.classList.add('active');
-        setTimeout(() => searchInput.focus(), 100);
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden'; // Scroll-u bağla
+        displayRecentSearches();
+        if (searchInput) {
+            setTimeout(() => searchInput.focus(), 300);
+        }
     });
 
-    const closeSearchFunc = () => {
-        searchOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-        searchInput.value = '';
-        searchResults.innerHTML = '';
-    };
-
-    closeSearch.addEventListener('click', closeSearchFunc);
+    if (closeSearch) {
+        closeSearch.addEventListener('click', () => {
+            searchOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Scroll-u qaytar
+        });
+    }
 
     searchOverlay.addEventListener('click', (e) => {
-        if (e.target === searchOverlay) closeSearchFunc();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
-            closeSearchFunc();
+        if (e.target === searchOverlay) {
+            searchOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
+}
 
-    // Axtarış Məntiqi
+if (searchInput && clearSearch && searchBox) {
     searchInput.addEventListener('input', () => {
-        const query = searchInput.value.toLowerCase().trim();
-        if (query.length < 2) {
-            searchResults.innerHTML = '';
+        const query = searchInput.value;
+        searchBox.classList.toggle('has-text', query.length > 0);
+
+        if (voiceSearchBtn) {
+            voiceSearchBtn.style.display = query.length > 0 ? 'none' : 'flex';
+        }
+
+        clearTimeout(searchTimeout);
+
+        if (query.trim() === '') {
+            if (searchResults) searchResults.innerHTML = '';
+            displayRecentSearches();
+            if (trendingSearches) trendingSearches.style.display = 'block';
             return;
         }
 
-        // Bütün məqalə və video kartlarını topla
-        const cards = Array.from(document.querySelectorAll('.project-card'));
-        
-        if (cards.length === 0) {
-            // Əgər səhifədə kart yoxdursa (məsələn, məqalə səhifəsindəyik),
-            // axtarış nəticələrini göstərmək üçün ana səhifəyə yönləndirmə təklif edə bilərik
-            // və ya sadəcə "Ana səhifədə axtar" mesajı göstərə bilərik.
-            searchResults.innerHTML = `<div style="text-align: center; padding: 20px;">
-                <p style="color: var(--text-color); margin-bottom: 15px;">Axtarış üçün ana səhifəyə keçid edin.</p>
-                <a href="${window.location.pathname.includes('/articles/') || window.location.pathname.includes('/videos/') ? '../index.html' : 'index.html'}?search=${encodeURIComponent(query)}" class="btn" style="opacity: 1; animation: none;">Ana səhifədə axtar</a>
-            </div>`;
-            return;
-        }
+        if (recentSearches) recentSearches.style.display = 'none';
+        if (trendingSearches) trendingSearches.style.display = 'none';
+        showSkeletons();
 
-        const results = cards.filter(card => {
-            const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
-            const description = card.querySelector('p')?.innerText.toLowerCase() || '';
-            return title.includes(query) || description.includes(query);
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 500); // Animasiyanın görünməsi üçün 0.5 saniyəlik gecikmə
+    });
+
+    clearSearch.addEventListener('click', () => {
+        searchInput.value = '';
+        searchBox.classList.remove('has-text');
+        if (voiceSearchBtn) voiceSearchBtn.style.display = 'flex';
+        if (searchResults) searchResults.innerHTML = '';
+        displayRecentSearches();
+        if (trendingSearches) trendingSearches.style.display = 'block';
+        searchInput.focus();
+    });
+}
+
+if (voiceSearchBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.lang = 'az-AZ';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    voiceSearchBtn.addEventListener('click', () => {
+        if (voiceSearchBtn.classList.contains('listening')) {
+            recognition.stop();
+        } else {
+            recognition.start();
+        }
+    });
+
+    recognition.onstart = () => {
+        voiceSearchBtn.classList.add('listening');
+        searchInput.placeholder = "Danışın...";
+    };
+
+    recognition.onend = () => {
+        voiceSearchBtn.classList.remove('listening');
+        searchInput.placeholder = "Məqalə və ya video axtar...";
+    };
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        searchInput.value = transcript;
+        searchBox.classList.add('has-text');
+        if (trendingSearches) trendingSearches.style.display = 'none';
+        if (recentSearches) recentSearches.style.display = 'none';
+        showSkeletons();
+        setTimeout(() => performSearch(transcript), 500);
+    };
+} else if (voiceSearchBtn) {
+    voiceSearchBtn.style.display = 'none';
+}
+
+if (clearHistory) {
+    clearHistory.addEventListener('click', () => {
+        localStorage.removeItem('recent-searches');
+        displayRecentSearches();
+    });
+}
+
+if (trendingTags.length > 0) {
+    trendingTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            searchInput.value = tag.textContent;
+            searchBox.classList.add('has-text');
+            
+            // Animasiyalı keçid məntiqi
+            if (trendingSearches) trendingSearches.classList.add('fade-out');
+            if (recentSearches) recentSearches.classList.add('fade-out');
+            if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
+
+            setTimeout(() => {
+                if (trendingSearches) {
+                    trendingSearches.style.display = 'none';
+                    trendingSearches.classList.remove('fade-out');
+                }
+                if (recentSearches) {
+                    recentSearches.style.display = 'none';
+                    recentSearches.classList.remove('fade-out');
+                }
+                showSkeletons();
+                setTimeout(() => performSearch(tag.textContent), 300);
+            }, 300);
         });
-
-        displayResults(results);
     });
+}
 
-    // Səhifə yükləndikdə URL-də axtarış sorğusu varmı yoxla
-    window.addEventListener('load', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('search');
-        if (searchQuery && searchBtnHeader) {
-            searchBtnHeader.click();
-            searchInput.value = searchQuery;
-            // Input event-ini əllə tətiklə ki, axtarış başlasın
-            searchInput.dispatchEvent(new Event('input'));
-        }
-    });
+function getRecentSearches() {
+    try {
+        return JSON.parse(localStorage.getItem('recent-searches') || '[]');
+    } catch (e) {
+        return [];
+    }
+}
 
-    function displayResults(results) {
-        if (results.length === 0) {
-            searchResults.innerHTML = '<p style="text-align: center; color: var(--text-color); opacity: 0.7;">Nəticə tapılmadı.</p>';
-            return;
-        }
+function saveSearch(term) {
+    const query = term.toLowerCase().trim();
+    if (!query) return;
+    
+    let searches = getRecentSearches();
+    searches = searches.filter(s => s.toLowerCase() !== query);
+    searches.unshift(term.trim());
+    searches = searches.slice(0, 5);
+    localStorage.setItem('recent-searches', JSON.stringify(searches));
+}
 
-        searchResults.innerHTML = '';
-        results.forEach(result => {
-            const clone = result.cloneNode(true);
-            clone.classList.remove('reveal', 'active'); // Animasiya klasslarını təmizlə
-            clone.style.opacity = '1';
-            clone.style.transform = 'none';
-            clone.style.animation = 'none';
-            
-            // Search overlay içində kliklədikdə overlay-i bağla
-            clone.addEventListener('click', () => {
-                searchOverlay.classList.remove('active');
-                document.body.style.overflow = '';
+function displayRecentSearches() {
+    if (!recentSearches || !recentTags) return;
+    
+    const searches = getRecentSearches();
+    if (searches.length > 0) {
+        recentSearches.style.display = 'block';
+        recentTags.innerHTML = searches.map(s => `<span class="recent-tag">${s}</span>`).join('');
+        
+        recentTags.querySelectorAll('.recent-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                searchInput.value = tag.textContent;
+                searchBox.classList.add('has-text');
+                
+                // Animasiyalı keçid məntiqi
+                if (trendingSearches) trendingSearches.classList.add('fade-out');
+                if (recentSearches) recentSearches.classList.add('fade-out');
+                if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
+
+                setTimeout(() => {
+                    if (trendingSearches) {
+                        trendingSearches.style.display = 'none';
+                        trendingSearches.classList.remove('fade-out');
+                    }
+                    if (recentSearches) {
+                        recentSearches.style.display = 'none';
+                        recentSearches.classList.remove('fade-out');
+                    }
+                    showSkeletons();
+                    setTimeout(() => performSearch(tag.textContent), 300);
+                }, 300);
             });
+        });
+    } else {
+        recentSearches.style.display = 'none';
+    }
+}
+
+function showSkeletons() {
+    if (!searchResults) return;
+    const skeletonHTML = `
+        <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-content">
+                <div class="card-tags">
+                    <div class="skeleton" style="width: 50px; height: 14px; border-radius: 4px;"></div>
+                </div>
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text" style="width: 60%;"></div>
+            </div>
+        </div>
+    `;
+    searchResults.innerHTML = skeletonHTML.repeat(3);
+}
+
+function performSearch(query) {
+    if (!searchResults) return;
+    
+    const term = query.trim();
+    if (term === '') {
+        searchResults.innerHTML = '';
+        return;
+    }
+
+    const lowerSearchTerm = term.toLowerCase();
+    const isSubPage = window.location.pathname.includes('/articles/') || window.location.pathname.includes('/videos/');
+    const pathPrefix = isSubPage ? '../' : '';
+
+    const results = siteContent.filter(item => 
+        item.title.toLowerCase().includes(lowerSearchTerm) || 
+        item.desc.toLowerCase().includes(lowerSearchTerm)
+    );
+
+    if (results.length > 0) {
+        // Nəticə tapıldıqda axtarış tarixçəsinə əlavə et
+        saveSearch(query);
+
+        // Açar sözü vurğulamaq üçün regex (xüsusi simvolları qaçıraraq)
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+
+        searchResults.innerHTML = results.map((item, index) => {
+            let imgSrc = item.img;
+            if (!imgSrc.startsWith('http') && isSubPage) imgSrc = '../' + imgSrc;
             
-            searchResults.appendChild(clone);
+            const highlightedTitle = item.title.replace(regex, '<strong>$1</strong>');
+            const highlightedDesc = item.desc.replace(regex, '<strong>$1</strong>');
+
+            return `
+                <a href="${pathPrefix + item.url}" class="project-card" style="animation-delay: ${index * 0.1}s">
+                    <div class="img-placeholder">
+                        <img src="${imgSrc}" alt="${item.title}" class="card-image" loading="lazy" onload="this.classList.add('loaded')">
+                    </div>
+                    <div>
+                        <div class="card-tags">
+                            <span class="result-type-tag">${item.type}</span>
+                            ${item.type === "Məqalə" ? `<span class="read-time-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${item.readTime}</span>` : ''}
+                        </div>
+                        <h3>${highlightedTitle}</h3>
+                        <p>${highlightedDesc}</p>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    } else {
+        // Nəticə tapılmadıqda göstərilən mesaj
+        searchResults.innerHTML = `
+            <div class="no-results">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                <p>Təəssüf ki, axtarışınıza uyğun nəticə tapılmadı.</p>
+                <button id="viewTrendingBtn" class="btn" style="margin-top: 20px; opacity: 1; animation: none;">Trend olan mövzulara bax</button>
+            </div>
+        `;
+
+        document.getElementById('viewTrendingBtn')?.addEventListener('click', () => {
+            searchInput.value = '';
+            searchBox.classList.remove('has-text');
+            if (voiceSearchBtn) voiceSearchBtn.style.display = 'flex';
+            searchResults.innerHTML = '';
+            displayRecentSearches();
+            if (trendingSearches) {
+                trendingSearches.style.display = 'block';
+            }
+            searchInput.focus();
         });
     }
 }
