@@ -7,17 +7,6 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/png" href="favicon.ico">
     <style>
-        .article-content {
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .article-content h1 { margin-bottom: 20px; color: #000; }
-        .article-content p { margin-bottom: 15px; font-size: 1.1rem; color: #444; }
-        .article-img { width: 100%; height: auto; border-radius: 8px; margin-bottom: 20px; display: block; }
         .back-link { display: inline-block; margin-bottom: 20px; color: var(--primary-color); text-decoration: none; font-weight: bold; }
     </style>
 </head>
@@ -39,9 +28,24 @@
                 <a href="../index.html#videolar">Videolar</a>
                 <a href="../index.html#haqqinda">Haqqında</a>
                 <a href="../settings.html">Parametrlər</a>
+                <a href="javascript:void(0)" id="searchBtnHeader" style="display: flex; align-items: center; gap: 5px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </a>
             </div>
         </nav>
     </header>
+
+    <!-- Axtarış Overlay -->
+    <div id="searchOverlay" class="search-overlay">
+        <div class="search-container">
+            <div class="search-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Məqalə və ya video axtar..." autocomplete="off">
+                <button id="closeSearch">×</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
 
     <div class="article-content">
         <h1>Uşaqların düzgün yuxu rejimi necə olmalıdır?</h1>

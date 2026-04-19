@@ -104,3 +104,104 @@ if (shareBtn) {
         }
     });
 }
+
+// Axtarış Funksionallığı
+const searchBtnHeader = document.getElementById('searchBtnHeader');
+const searchOverlay = document.getElementById('searchOverlay');
+const closeSearch = document.getElementById('closeSearch');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+if (searchBtnHeader && searchOverlay) {
+    searchBtnHeader.addEventListener('click', () => {
+        searchOverlay.classList.add('active');
+        setTimeout(() => searchInput.focus(), 100);
+        document.body.style.overflow = 'hidden';
+    });
+
+    const closeSearchFunc = () => {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+    };
+
+    closeSearch.addEventListener('click', closeSearchFunc);
+
+    searchOverlay.addEventListener('click', (e) => {
+        if (e.target === searchOverlay) closeSearchFunc();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            closeSearchFunc();
+        }
+    });
+
+    // Axtarış Məntiqi
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase().trim();
+        if (query.length < 2) {
+            searchResults.innerHTML = '';
+            return;
+        }
+
+        // Bütün məqalə və video kartlarını topla
+        const cards = Array.from(document.querySelectorAll('.project-card'));
+        
+        if (cards.length === 0) {
+            // Əgər səhifədə kart yoxdursa (məsələn, məqalə səhifəsindəyik),
+            // axtarış nəticələrini göstərmək üçün ana səhifəyə yönləndirmə təklif edə bilərik
+            // və ya sadəcə "Ana səhifədə axtar" mesajı göstərə bilərik.
+            searchResults.innerHTML = `<div style="text-align: center; padding: 20px;">
+                <p style="color: var(--text-color); margin-bottom: 15px;">Axtarış üçün ana səhifəyə keçid edin.</p>
+                <a href="${window.location.pathname.includes('/articles/') || window.location.pathname.includes('/videos/') ? '../index.html' : 'index.html'}?search=${encodeURIComponent(query)}" class="btn" style="opacity: 1; animation: none;">Ana səhifədə axtar</a>
+            </div>`;
+            return;
+        }
+
+        const results = cards.filter(card => {
+            const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+            const description = card.querySelector('p')?.innerText.toLowerCase() || '';
+            return title.includes(query) || description.includes(query);
+        });
+
+        displayResults(results);
+    });
+
+    // Səhifə yükləndikdə URL-də axtarış sorğusu varmı yoxla
+    window.addEventListener('load', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        if (searchQuery && searchBtnHeader) {
+            searchBtnHeader.click();
+            searchInput.value = searchQuery;
+            // Input event-ini əllə tətiklə ki, axtarış başlasın
+            searchInput.dispatchEvent(new Event('input'));
+        }
+    });
+
+    function displayResults(results) {
+        if (results.length === 0) {
+            searchResults.innerHTML = '<p style="text-align: center; color: var(--text-color); opacity: 0.7;">Nəticə tapılmadı.</p>';
+            return;
+        }
+
+        searchResults.innerHTML = '';
+        results.forEach(result => {
+            const clone = result.cloneNode(true);
+            clone.classList.remove('reveal', 'active'); // Animasiya klasslarını təmizlə
+            clone.style.opacity = '1';
+            clone.style.transform = 'none';
+            clone.style.animation = 'none';
+            
+            // Search overlay içində kliklədikdə overlay-i bağla
+            clone.addEventListener('click', () => {
+                searchOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            searchResults.appendChild(clone);
+        });
+    }
+}
