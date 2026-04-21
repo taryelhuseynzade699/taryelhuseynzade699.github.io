@@ -105,6 +105,114 @@ if (shareBtn) {
     });
 }
 
+// Məqalə dinləmə funksionallığı
+const listenBtn = document.getElementById('listenBtn');
+const articleAudio = document.getElementById('articleAudio');
+
+if (listenBtn && articleAudio) {
+    // Pleyer panelini yarat
+    const playerUI = document.createElement('div');
+    playerUI.className = 'audio-player-panel';
+    playerUI.innerHTML = `
+        <div class="audio-player-container">
+            <div class="audio-controls">
+                <button class="skip-btn" id="skipBack" title="10 saniyə geri">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+                </button>
+                <button class="play-pause-btn" id="panelPlayPause">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </button>
+                <button class="skip-btn" id="skipForward" title="10 saniyə irəli">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+                </button>
+                <button class="speed-btn" id="panelSpeed">1x</button>
+                <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+            </div>
+            <div class="audio-progress" id="audioProgress">
+                <div class="audio-progress-fill" id="audioProgressFill"></div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(playerUI);
+
+    const panelBtn = document.getElementById('panelPlayPause');
+    const panelSpeed = document.getElementById('panelSpeed');
+    const skipBackBtn = document.getElementById('skipBack');
+    const skipForwardBtn = document.getElementById('skipForward');
+    const progressContainer = document.getElementById('audioProgress');
+    const progressFill = document.getElementById('audioProgressFill');
+    const timeDisplay = document.getElementById('timeDisplay');
+
+    const speeds = [0.5, 1, 1.5, 2];
+    let speedIndex = 1; // Başlanğıc sürət 1x
+
+    panelSpeed.addEventListener('click', () => {
+        speedIndex = (speedIndex + 1) % speeds.length;
+        const newSpeed = speeds[speedIndex];
+        articleAudio.playbackRate = newSpeed;
+        panelSpeed.textContent = newSpeed + 'x';
+    });
+
+    skipBackBtn.addEventListener('click', () => {
+        articleAudio.currentTime = Math.max(0, articleAudio.currentTime - 10);
+    });
+
+    skipForwardBtn.addEventListener('click', () => {
+        articleAudio.currentTime = Math.min(articleAudio.duration, articleAudio.currentTime + 10);
+    });
+
+    const formatTime = (time) => {
+        if (isNaN(time)) return "00:00";
+        const min = Math.floor(time / 60);
+        const sec = Math.floor(time % 60);
+        return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    };
+
+    const updateUI = () => {
+        const isPaused = articleAudio.paused;
+        panelBtn.innerHTML = isPaused 
+            ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
+            : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+        
+        if (!isPaused) {
+            playerUI.classList.add('active');
+            listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Dayandır`;
+        } else {
+            playerUI.classList.remove('active');
+            listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> Davam etdir`;
+        }
+    };
+
+    listenBtn.addEventListener('click', () => {
+        if (articleAudio.paused) articleAudio.play();
+        else articleAudio.pause();
+    });
+
+    panelBtn.addEventListener('click', () => {
+        if (articleAudio.paused) articleAudio.play();
+        else articleAudio.pause();
+    });
+
+    articleAudio.addEventListener('play', updateUI);
+    articleAudio.addEventListener('pause', updateUI);
+    articleAudio.addEventListener('timeupdate', () => {
+        const percent = (articleAudio.currentTime / articleAudio.duration) * 100;
+        progressFill.style.width = percent + '%';
+        timeDisplay.textContent = `${formatTime(articleAudio.currentTime)} / ${formatTime(articleAudio.duration)}`;
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+        const width = progressContainer.clientWidth;
+        const clickX = e.offsetX;
+        articleAudio.currentTime = (clickX / width) * articleAudio.duration;
+    });
+
+    articleAudio.addEventListener('ended', () => {
+        playerUI.classList.remove('active');
+        listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> Bu məqaləni dinləyin`;
+    });
+}
+
 // Axtarış Overlay funksionallığı
 const searchIcon = document.querySelector('.search-icon');
 const searchOverlay = document.getElementById('searchOverlay');
