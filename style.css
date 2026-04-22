@@ -61,7 +61,9 @@ nav {
     color: var(--dark-color);
     display: flex;
     align-items: center;
-    margin-right: 15px;
+    margin-right: 0;
+    margin-left: 35px;
+    order: 2;
     text-decoration: none;
     transition: 0.3s;
 }
@@ -80,6 +82,10 @@ nav a {
 
 nav a:hover {
     color: var(--primary-color);
+}
+
+.nav-links {
+    order: 1;
 }
 
 .nav-links a {
@@ -529,6 +535,7 @@ body.dark-mode .article-rating {
     }
 
     .search-icon {
+        order: 0;
         margin-left: 5px;
         margin-right: 10px; /* Hamburger ikonuna olan məsafə */
     }
@@ -541,6 +548,7 @@ body.dark-mode .article-rating {
         position: fixed;
         top: 0;
         right: 0;
+        order: 0;
         opacity: 0;
         visibility: hidden;
         width: 100%;
@@ -1301,4 +1309,62 @@ body.dark-mode .audio-player-panel .skip-btn {
 .audio-player-panel .skip-btn:hover {
     color: var(--primary-color);
     transform: scale(1.1);
+}
+
+/* Scroll to Top Button */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 2600; /* Audio player-dən yuxarıda olması üçün */
+    transform: translateY(20px);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-top-btn svg {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-top-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.scroll-top-btn:hover svg {
+    transform: translateY(-3px);
+}
+
+@keyframes bounceIn {
+    from { opacity: 0; transform: scale(0.3) translateY(40px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+body.dark-mode .scroll-top-btn {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .scroll-top-btn:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
