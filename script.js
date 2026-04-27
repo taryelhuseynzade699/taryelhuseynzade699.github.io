@@ -170,15 +170,19 @@ if (listenBtn && articleAudio) {
 
     const updateUI = () => {
         const isPaused = articleAudio.paused;
+        const scrollBtn = document.querySelector('.scroll-top-btn');
+
         panelBtn.innerHTML = isPaused 
             ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
             : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
         
         if (!isPaused) {
             playerUI.classList.add('active');
+            document.body.classList.add('has-player');
+            if (scrollBtn) scrollBtn.classList.add('player-active');
             listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Dayandır`;
         } else {
-            playerUI.classList.remove('active');
+            // Burada pleyeri tam bağlamırıq, yalnız ikonları dəyişirik
             listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> Davam etdir`;
         }
     };
@@ -209,6 +213,9 @@ if (listenBtn && articleAudio) {
 
     articleAudio.addEventListener('ended', () => {
         playerUI.classList.remove('active');
+        document.body.classList.remove('has-player');
+        const scrollBtn = document.querySelector('.scroll-top-btn');
+        if (scrollBtn) scrollBtn.classList.remove('player-active');
         listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> Bu məqaləni dinləyin`;
     });
 }
@@ -586,8 +593,8 @@ function performSearch(query) {
 
             // Şərh sayını hesabla
             const commentPath = '/' + item.url;
-            const commentCount = JSON.parse(localStorage.getItem(`comments_${commentPath}`) || '[]').length;
-            const commentTag = commentCount > 0 ? `<span class="comment-count-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>${commentCount} şərh</span>` : '';
+            const comments = JSON.parse(localStorage.getItem(`comments_${commentPath}`) || '[]');
+            const commentTag = `<span class="comment-count-tag" title="Şərhlərə keçid"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>${comments.length} şərh</span>`;
 
             return `
                 <a href="${pathPrefix + item.url}" class="project-card" style="animation-delay: ${index * 0.1}s">
@@ -642,11 +649,13 @@ scrollTopBtn.setAttribute('title', 'Yuxarı qalx');
 document.body.appendChild(scrollTopBtn);
 
 window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('visible');
-    } else {
-        scrollTopBtn.classList.remove('visible');
-    }
+    const scrolled = window.pageYOffset;
+    const isVisible = scrolled > 300;
+    scrollTopBtn.classList.toggle('visible', isVisible);
+
+    // Səhifənin ən sonuna çatdığını yoxlayırıq (20px qala)
+    const isAtBottom = (window.innerHeight + scrolled) >= (document.documentElement.scrollHeight - 20);
+    scrollTopBtn.classList.toggle('at-bottom', isAtBottom);
 });
 
 scrollTopBtn.addEventListener('click', () => {
@@ -899,25 +908,77 @@ function updateCardCommentCounts() {
             const path = url.pathname;
             const comments = JSON.parse(localStorage.getItem(`comments_${path}`) || '[]');
             
-            if (comments.length > 0) {
-                const tagsContainer = card.querySelector('.card-tags');
-                // Əgər tag konteyneri varsa və hələ sayğac əlavə edilməyibsə
-                if (tagsContainer && !tagsContainer.querySelector('.comment-count-tag')) {
-                    const countTag = document.createElement('span');
-                    countTag.className = 'comment-count-tag';
-                    countTag.innerHTML = `
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        ${comments.length} şərh
-                    `;
-                    tagsContainer.appendChild(countTag);
+            let tagsContainer = card.querySelector('.card-tags');
+            // Əgər tag konteyneri yoxdursa, onu yaradaq
+            if (!tagsContainer) {
+                tagsContainer = document.createElement('div');
+                tagsContainer.className = 'card-tags';
+                const h3 = card.querySelector('h3');
+                if (h3) {
+                    h3.parentNode.insertBefore(tagsContainer, h3);
+                } else {
+                    card.appendChild(tagsContainer);
                 }
             }
+
+            let countTag = tagsContainer.querySelector('.comment-count-tag');
+            if (!countTag) {
+                countTag = document.createElement('span');
+                countTag.className = 'comment-count-tag';
+                countTag.title = "Şərhlərə keçid";
+                tagsContainer.appendChild(countTag);
+            }
+            
+            countTag.innerHTML = `
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                ${comments.length} şərh
+            `;
         } catch (e) {
             console.warn("Şərh sayı yenilənmədi:", e);
         }
     });
 }
 
-window.addEventListener('load', updateCardCommentCounts);
+window.addEventListener('load', () => {
+    updateCardCommentCounts();
+    
+    // Əgər səhifə birbaşa şərh linki ilə açılıbsa, rəvan sürüşməni aktiv et
+    if (window.location.hash === '#comments-section') {
+        const element = document.getElementById('comments-section');
+        if (element) {
+            setTimeout(() => {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+});
+
+// Şərh sayğacına kliklədikdə birbaşa şərh bölməsinə keçid
+document.addEventListener('click', (e) => {
+    const commentTag = e.target.closest('.comment-count-tag');
+    if (commentTag) {
+        const card = commentTag.closest('.project-card');
+        const href = card?.getAttribute('href');
+        
+        if (href) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const targetUrl = new URL(href, window.location.origin);
+            
+            // Əgər artıq həmin səhifədəyiksə, sadəcə aşağı sürüşürük
+            if (targetUrl.pathname === window.location.pathname) {
+                const element = document.getElementById('comments-section');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.pushState(null, null, '#comments-section');
+                }
+            } else {
+                // Fərqli səhifədirsə, normal keçid edirik (hash ilə birgə)
+                window.location.href = href.split('#')[0] + '#comments-section';
+            }
+        }
+    }
+});
