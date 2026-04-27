@@ -125,7 +125,15 @@ if (listenBtn && articleAudio) {
                 <button class="skip-btn" id="skipForward" title="10 saniyə irəli">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
                 </button>
-                <button class="speed-btn" id="panelSpeed">1x</button>
+                <div class="speed-control-container">
+                    <button class="speed-btn" id="panelSpeed">1x</button>
+                    <div class="speed-menu" id="speedMenu">
+                        <div class="speed-option" data-speed="0.5">0.5x</div>
+                        <div class="speed-option active" data-speed="1">1x</div>
+                        <div class="speed-option" data-speed="1.5">1.5x</div>
+                        <div class="speed-option" data-speed="2">2x</div>
+                    </div>
+                </div>
                 <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
             </div>
             <div class="audio-progress" id="audioProgress">
@@ -137,20 +145,32 @@ if (listenBtn && articleAudio) {
 
     const panelBtn = document.getElementById('panelPlayPause');
     const panelSpeed = document.getElementById('panelSpeed');
+    const speedMenu = document.getElementById('speedMenu');
     const skipBackBtn = document.getElementById('skipBack');
     const skipForwardBtn = document.getElementById('skipForward');
     const progressContainer = document.getElementById('audioProgress');
     const progressFill = document.getElementById('audioProgressFill');
     const timeDisplay = document.getElementById('timeDisplay');
 
-    const speeds = [0.5, 1, 1.5, 2];
-    let speedIndex = 1; // Başlanğıc sürət 1x
+    panelSpeed.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speedMenu.classList.toggle('active');
+    });
 
-    panelSpeed.addEventListener('click', () => {
-        speedIndex = (speedIndex + 1) % speeds.length;
-        const newSpeed = speeds[speedIndex];
-        articleAudio.playbackRate = newSpeed;
-        panelSpeed.textContent = newSpeed + 'x';
+    document.querySelectorAll('.speed-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const speed = parseFloat(option.dataset.speed);
+            articleAudio.playbackRate = speed;
+            panelSpeed.textContent = speed + 'x';
+            
+            document.querySelectorAll('.speed-option').forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            speedMenu.classList.remove('active');
+        });
+    });
+
+    document.addEventListener('click', () => {
+        if (speedMenu) speedMenu.classList.remove('active');
     });
 
     skipBackBtn.addEventListener('click', () => {
@@ -182,7 +202,9 @@ if (listenBtn && articleAudio) {
             if (scrollBtn) scrollBtn.classList.add('player-active');
             listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Dayandır`;
         } else {
-            // Burada pleyeri tam bağlamırıq, yalnız ikonları dəyişirik
+            playerUI.classList.remove('active');
+            document.body.classList.remove('has-player');
+            if (scrollBtn) scrollBtn.classList.remove('player-active');
             listenBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> Davam etdir`;
         }
     };
