@@ -223,6 +223,7 @@ const searchBox = document.querySelector('.search-box');
 const searchResults = document.getElementById('searchResults');
 const trendingSearches = document.getElementById('trendingSearches');
 const trendingTags = document.querySelectorAll('.trending-tag');
+const categoriesSection = document.getElementById('categoriesSection');
 const recentSearches = document.getElementById('recentSearches');
 const recentTags = document.querySelector('.recent-tags');
 const clearHistory = document.getElementById('clearHistory');
@@ -232,12 +233,22 @@ let searchTimeout;
 // Axtarış üçün məlumat bazası
 const siteContent = [
     {
+        title: "Uşaqların asudə vaxtının səmərəli keçirilməsi necə təmin olunmalıdır?",
+        desc: "Uşağın fiziki və zehni inkişafında asudə vaxtın düzgün təşkilinin rolu haqqında geniş məqalə.",
+        url: "articles/usaqlarin_asude_vaxtinin_semererli_kecirilmesi_nece_temin_olunmalidir.html",
+        img: "images/usaqlarin_asude_vaxtinin_semererli_kecirilmesi_nece_temin_olunmalidir.jpg",
+        type: "Məqalə",
+        readTime: "7 dəq",
+        category: "Asudə vaxt"
+    },
+    {
         title: "Uşaqların düzgün qidalanması necə olmalıdır?",
         desc: "Uşaqların sağlam böyüməsi və inkişafı üçün düzgün qidalanmanın əhəmiyyəti və faydalı tövsiyələr.",
         url: "articles/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.html",
         img: "images/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.jpg",
         type: "Məqalə",
-        readTime: "5 dəq"
+        readTime: "5 dəq",
+        category: "Qidalanma"
     },
     {
         title: "Uşaqların düzgün yuxu rejimi necə olmalıdır?",
@@ -245,7 +256,8 @@ const siteContent = [
         url: "articles/usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.html",
         img: "images/usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.jpg",
         type: "Məqalə",
-        readTime: "4 dəq"
+        readTime: "4 dəq",
+        category: "Yuxu rejimi"
     },
     {
         title: "Uşaqların beyin inkişafı üçün nə etmək lazımdır?",
@@ -253,7 +265,8 @@ const siteContent = [
         url: "articles/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html",
         img: "images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg",
         type: "Məqalə",
-        readTime: "3 dəq"
+        readTime: "3 dəq",
+        category: "Beyin inkişafı"
     },
     {
         title: "Uşağı danışdırmaq üçün nə etməliyik?",
@@ -261,7 +274,8 @@ const siteContent = [
         url: "articles/usagi_danisdirmaq_ucun_ne_etmeliyik.html",
         img: "images/valideyn.jpg",
         type: "Məqalə",
-        readTime: "3 dəq"
+        readTime: "3 dəq",
+        category: "Nitq inkişafı"
     },
     {
         title: "Paketlənmiş məhsulların zərərləri",
@@ -269,21 +283,24 @@ const siteContent = [
         url: "articles/paketlenmis_mehsullarin_zererleri.html",
         img: "images/paketlenmis_mehsullarin_zererleri.jpg",
         type: "Məqalə",
-        readTime: "6 dəq"
+        readTime: "6 dəq",
+        category: "Sağlamlıq"
     },
     {
         title: "Paketlənmiş məhsulların zərərləri (Video)",
         desc: "Emal olunmuş qidaların sağlamlığımıza təsiri haqqında maarifləndirici video icmal.",
         url: "videos/paketlenmis_mehsullarin_zererleri.html",
         img: "https://i.ytimg.com/vi_webp/PP5BympxEUQ/mqdefault.webp",
-        type: "Video"
+        type: "Video",
+        category: "Sağlamlıq"
     },
     {
         title: "Bayatı kürd muğamı",
         desc: "Azərbaycan muğam sənətinin incilərindən olan Bayatı kürd muğamının ifası.",
         url: "videos/bayati_kurd_mugami.html",
         img: "https://i.ytimg.com/vi/9kLzT0T1mxM/mqdefault.jpg?sqp=-oaymwEmCMACELQB8quKqQMa8AEB-AHOBYACgAqKAgwIABABGGUgVChGMA8=&rs=AOn4CLBel09-_L2np6GrrPPX7Se3zL8bCA",
-        type: "Video"
+        type: "Video",
+        category: "Musiqi"
     }
 ];
 
@@ -328,11 +345,13 @@ if (searchInput && clearSearch && searchBox) {
             if (searchResults) searchResults.innerHTML = '';
             displayRecentSearches();
             if (trendingSearches) trendingSearches.style.display = 'block';
+            if (categoriesSection) categoriesSection.style.display = 'block';
             return;
         }
 
         if (recentSearches) recentSearches.style.display = 'none';
         if (trendingSearches) trendingSearches.style.display = 'none';
+        if (categoriesSection) categoriesSection.style.display = 'none';
         showSkeletons();
 
         searchTimeout = setTimeout(() => {
@@ -347,6 +366,7 @@ if (searchInput && clearSearch && searchBox) {
         if (searchResults) searchResults.innerHTML = '';
         displayRecentSearches();
         if (trendingSearches) trendingSearches.style.display = 'block';
+        if (categoriesSection) categoriesSection.style.display = 'block';
         searchInput.focus();
     });
 }
@@ -383,6 +403,7 @@ if (voiceSearchBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition
         searchBox.classList.add('has-text');
         if (trendingSearches) trendingSearches.style.display = 'none';
         if (recentSearches) recentSearches.style.display = 'none';
+        if (categoriesSection) categoriesSection.style.display = 'none';
         showSkeletons();
         setTimeout(() => performSearch(transcript), 500);
     };
@@ -406,6 +427,7 @@ if (trendingTags.length > 0) {
             // Animasiyalı keçid məntiqi
             if (trendingSearches) trendingSearches.classList.add('fade-out');
             if (recentSearches) recentSearches.classList.add('fade-out');
+            if (categoriesSection) categoriesSection.classList.add('fade-out');
             if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
 
             setTimeout(() => {
@@ -416,6 +438,10 @@ if (trendingTags.length > 0) {
                 if (recentSearches) {
                     recentSearches.style.display = 'none';
                     recentSearches.classList.remove('fade-out');
+                }
+                if (categoriesSection) {
+                    categoriesSection.style.display = 'none';
+                    categoriesSection.classList.remove('fade-out');
                 }
                 showSkeletons();
                 setTimeout(() => performSearch(tag.textContent), 300);
@@ -459,6 +485,7 @@ function displayRecentSearches() {
                 // Animasiyalı keçid məntiqi
                 if (trendingSearches) trendingSearches.classList.add('fade-out');
                 if (recentSearches) recentSearches.classList.add('fade-out');
+                if (categoriesSection) categoriesSection.classList.add('fade-out');
                 if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
 
                 setTimeout(() => {
@@ -469,6 +496,10 @@ function displayRecentSearches() {
                     if (recentSearches) {
                         recentSearches.style.display = 'none';
                         recentSearches.classList.remove('fade-out');
+                    }
+                    if (categoriesSection) {
+                        categoriesSection.style.display = 'none';
+                        categoriesSection.classList.remove('fade-out');
                     }
                     showSkeletons();
                     setTimeout(() => performSearch(tag.textContent), 300);
@@ -511,9 +542,30 @@ function performSearch(query) {
     const isSubPage = window.location.pathname.includes('/articles/') || window.location.pathname.includes('/videos/');
     const pathPrefix = isSubPage ? '../' : '';
 
+    const categoryClassMap = {
+        "Qidalanma": "cat-qidalanma",
+        "Yuxu rejimi": "cat-yuxu",
+        "Beyin inkişafı": "cat-beyin",
+        "Nitq inkişafı": "cat-nitq",
+        "Sağlamlıq": "cat-saglamliq",
+        "Musiqi": "cat-musiqi",
+        "Asudə vaxt": "cat-asude"
+    };
+
+    const categoryIcons = {
+        "Qidalanma": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
+        "Yuxu rejimi": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+        "Beyin inkişafı": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.54Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0-2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.54Z"/></svg>',
+        "Nitq inkişafı": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+        "Sağlamlıq": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+        "Musiqi": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+        "Asudə vaxt": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>'
+    };
+
     const results = siteContent.filter(item => 
         item.title.toLowerCase().includes(lowerSearchTerm) || 
-        item.desc.toLowerCase().includes(lowerSearchTerm)
+        item.desc.toLowerCase().includes(lowerSearchTerm) ||
+        item.category.toLowerCase().includes(lowerSearchTerm)
     );
 
     if (results.length > 0) {
@@ -529,6 +581,13 @@ function performSearch(query) {
             
             const highlightedTitle = item.title.replace(regex, '<strong>$1</strong>');
             const highlightedDesc = item.desc.replace(regex, '<strong>$1</strong>');
+            const categoryIcon = categoryIcons[item.category] || '';
+            const catClass = categoryClassMap[item.category] || '';
+
+            // Şərh sayını hesabla
+            const commentPath = '/' + item.url;
+            const commentCount = JSON.parse(localStorage.getItem(`comments_${commentPath}`) || '[]').length;
+            const commentTag = commentCount > 0 ? `<span class="comment-count-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>${commentCount} şərh</span>` : '';
 
             return `
                 <a href="${pathPrefix + item.url}" class="project-card" style="animation-delay: ${index * 0.1}s">
@@ -538,7 +597,9 @@ function performSearch(query) {
                     <div>
                         <div class="card-tags">
                             <span class="result-type-tag">${item.type}</span>
+                            <span class="category-tag ${catClass}">${categoryIcon}${item.category}</span>
                             ${item.type === "Məqalə" ? `<span class="read-time-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${item.readTime}</span>` : ''}
+                            ${commentTag}
                         </div>
                         <h3>${highlightedTitle}</h3>
                         <p>${highlightedDesc}</p>
@@ -564,6 +625,9 @@ function performSearch(query) {
             displayRecentSearches();
             if (trendingSearches) {
                 trendingSearches.style.display = 'block';
+            }
+            if (categoriesSection) {
+                categoriesSection.style.display = 'block';
             }
             searchInput.focus();
         });
@@ -591,3 +655,269 @@ scrollTopBtn.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
+
+// Kateqoriya etiketlərinə tıklandıqda axtarış funksiyası
+document.addEventListener('click', (e) => {
+    const target = e.target.closest('.category-tag, .category-item');
+    if (target) {
+        const categoryName = target.textContent.trim();
+        
+        if (searchOverlay && searchInput && searchBox) {
+            searchOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            searchInput.value = categoryName;
+            searchBox.classList.add('has-text');
+            
+            if (trendingSearches) trendingSearches.style.display = 'none';
+            if (recentSearches) recentSearches.style.display = 'none';
+            if (categoriesSection) categoriesSection.style.display = 'none';
+            if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
+            
+            showSkeletons();
+            setTimeout(() => performSearch(categoryName), 300);
+        }
+    }
+});
+
+// Şərh bəyənmə funksionallığı
+document.addEventListener('click', (e) => {
+    const likeBtn = e.target.closest('.like-btn');
+    if (likeBtn) {
+        const countSpan = likeBtn.parentElement.querySelector('.like-count');
+        let count = parseInt(countSpan.textContent);
+        
+        if (likeBtn.classList.contains('liked')) {
+            likeBtn.classList.remove('liked');
+            count--;
+        } else {
+            likeBtn.classList.add('liked');
+            count++;
+            // Kiçik animasiya effekti
+            likeBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => likeBtn.style.transform = 'scale(1)', 200);
+
+            // Konfeti effekti
+            triggerConfetti(likeBtn);
+        }
+        
+        countSpan.textContent = count;
+    }
+});
+
+function triggerConfetti(btn) {
+    const colors = ['#2563eb', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6'];
+    for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('span');
+        particle.style.position = 'absolute';
+        particle.style.width = '6px';
+        particle.style.height = '6px';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.left = '50%';
+        particle.style.top = '50%';
+        particle.style.zIndex = '10';
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 30 + Math.random() * 30;
+        const x = Math.cos(angle) * velocity;
+        const y = Math.sin(angle) * velocity;
+
+        btn.appendChild(particle);
+
+        const animation = particle.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(0)`, opacity: 0 }
+        ], {
+            duration: 600 + Math.random() * 400,
+            easing: 'cubic-bezier(0, .9, .57, 1)'
+        });
+
+        animation.onfinish = () => particle.remove();
+    }
+}
+
+/**
+ * İstifadəçi adına görə avatar rəngi və baş hərfini yaradır
+ * @param {string} name - İstifadəçinin adı
+ * @returns {Object} - {initial: string, color: string}
+ */
+function generateAvatarData(name) {
+    const colors = [
+        '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+        '#ec4899', '#06b6d4', '#f97316', '#14b8a6', '#6366f1'
+    ];
+    
+    // Adın baş hərfini götürür (və ya '?' qoyur)
+    const initial = name ? name.trim().charAt(0).toUpperCase() : '?';
+    
+    // Adın hərflərinin koduna görə unikal bir rəng indeksi seçir
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const colorIndex = Math.abs(hash) % colors.length;
+    
+    return {
+        initial: initial,
+        color: colors[colorIndex]
+    };
+}
+
+// Nümunə istifadə (Yeni şərh yaradılan zaman):
+// const avatarData = generateAvatarData("Taryel");
+// avatarElement.style.backgroundColor = avatarData.color;
+// avatarElement.textContent = avatarData.initial;
+
+// LocalStorage ilə şərhlərin idarə olunması
+const commentForm = document.querySelector('.comment-form');
+const commentsList = document.querySelector('.comments-list');
+const pageIdentifier = window.location.pathname; // Hər səhifə üçün unikal açar
+
+if (commentForm && commentsList) {
+    // Şərhi ekranda göstərən funksiya
+    const displayComment = (comment) => {
+        const avatar = generateAvatarData(comment.author);
+        const commentHTML = `
+            <div class="comment-item" data-id="${comment.timestamp}">
+                <div class="comment-avatar" style="background-color: ${avatar.color}">
+                    ${avatar.initial}
+                </div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.author}</span>
+                        <span class="comment-date">${comment.date}</span>
+                    </div>
+                    <p>${comment.text}</p>
+                    <div class="comment-actions">
+                        <button class="like-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            <span>Bəyən</span>
+                        </button>
+                        <span class="like-count">0</span>
+                        <button class="delete-btn">Sil</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        commentsList.insertAdjacentHTML('beforeend', commentHTML);
+    };
+
+    // Yadda saxlanılmış şərhləri yüklə
+    const loadStoredComments = () => {
+        const stored = JSON.parse(localStorage.getItem(`comments_${pageIdentifier}`) || '[]');
+        stored.forEach(comment => displayComment(comment));
+    };
+
+    // Yeni şərh göndəriləndə
+    commentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nameInput = commentForm.querySelector('input[type="text"]');
+        const textInput = commentForm.querySelector('textarea');
+        
+        const newComment = {
+            author: nameInput.value,
+            text: textInput.value,
+            date: new Date().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric' }),
+            timestamp: Date.now()
+        };
+
+        // LocalStorage-ə yaz
+        const currentComments = JSON.parse(localStorage.getItem(`comments_${pageIdentifier}`) || '[]');
+        currentComments.push(newComment);
+        localStorage.setItem(`comments_${pageIdentifier}`, JSON.stringify(currentComments));
+
+        // UI-da göstər və formu təmizlə
+        displayComment(newComment);
+        commentForm.reset();
+    });
+
+    // Fərdi modal yaratmaq funksiyası
+    const createModal = () => {
+        const modalHTML = `
+            <div class="modal-overlay" id="deleteModal">
+                <div class="custom-modal">
+                    <h3 style="margin-bottom: 10px;">Şərhi sil?</h3>
+                    <p style="opacity: 0.8;">Bu şərhi silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.</p>
+                    <div class="modal-btns">
+                        <button class="modal-btn btn-cancel" id="closeModal">Ləğv et</button>
+                        <button class="modal-btn btn-confirm-delete" id="confirmDelete">Bəli, sil</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    };
+    createModal();
+
+    const modal = document.getElementById('deleteModal');
+    let commentToDelete = null;
+
+    // Şərhi silmə funksionallığı
+    commentsList.addEventListener('click', (e) => {
+        const deleteBtn = e.target.closest('.delete-btn');
+        if (deleteBtn) {
+            commentToDelete = deleteBtn.closest('.comment-item');
+            modal.classList.add('active');
+        }
+    });
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+        modal.classList.remove('active');
+        commentToDelete = null;
+    });
+
+    document.getElementById('confirmDelete').addEventListener('click', () => {
+        if (commentToDelete) {
+            const commentId = parseInt(commentToDelete.getAttribute('data-id'));
+            
+            // LocalStorage-dən sil
+            let currentComments = JSON.parse(localStorage.getItem(`comments_${pageIdentifier}`) || '[]');
+            currentComments = currentComments.filter(c => c.timestamp !== commentId);
+            localStorage.setItem(`comments_${pageIdentifier}`, JSON.stringify(currentComments));
+
+            // UI-dan sil
+            commentToDelete.style.opacity = '0';
+            commentToDelete.style.transform = 'translateX(20px)';
+            setTimeout(() => commentToDelete.remove(), 300);
+            
+            modal.classList.remove('active');
+            commentToDelete = null;
+        }
+    });
+
+    loadStoredComments();
+}
+
+// Əsas səhifədəki kartlarda şərhlərin sayını avtomatik yenilə
+function updateCardCommentCounts() {
+    document.querySelectorAll('.project-card').forEach(card => {
+        try {
+            // Kartın href-indən unikal yolu al (məsələn: /articles/usaqlar.html)
+            const url = new URL(card.href);
+            const path = url.pathname;
+            const comments = JSON.parse(localStorage.getItem(`comments_${path}`) || '[]');
+            
+            if (comments.length > 0) {
+                const tagsContainer = card.querySelector('.card-tags');
+                // Əgər tag konteyneri varsa və hələ sayğac əlavə edilməyibsə
+                if (tagsContainer && !tagsContainer.querySelector('.comment-count-tag')) {
+                    const countTag = document.createElement('span');
+                    countTag.className = 'comment-count-tag';
+                    countTag.innerHTML = `
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        ${comments.length} şərh
+                    `;
+                    tagsContainer.appendChild(countTag);
+                }
+            }
+        } catch (e) {
+            console.warn("Şərh sayı yenilənmədi:", e);
+        }
+    });
+}
+
+window.addEventListener('load', updateCardCommentCounts);

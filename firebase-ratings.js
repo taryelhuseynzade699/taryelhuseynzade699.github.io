@@ -33,16 +33,26 @@ async function handleRatingClick(value) {
 
     try {
         const docSnap = await getDoc(ratingDocRef);
+        const ratingKey = String(value); // 1, 2, 3, 4, 5 sahələri üçün
+
         if (docSnap.exists()) {
             await updateDoc(ratingDocRef, {
                 sum: increment(Number(value)),
-                count: increment(1)
+                count: increment(1),
+                [ratingKey]: increment(1)
             });
         } else {
-            await setDoc(ratingDocRef, {
+            const initialData = {
                 sum: Number(value),
-                count: 1
-            });
+                count: 1,
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 0
+            };
+            initialData[ratingKey] = 1;
+            await setDoc(ratingDocRef, initialData);
         }
         localStorage.setItem(`rated_${pagePath}`, value);
         if (ratingMsg) {
