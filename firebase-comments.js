@@ -2,13 +2,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/fireba
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDe6mS2vZydl_HqtUJknXRcmTclKXflSRo",
-  authDomain: "taryel-huseynzade.firebaseapp.com",
-  projectId: "taryel-huseynzade",
-  storageBucket: "taryel-huseynzade.firebasestorage.app",
-  messagingSenderId: "346312589052",
-  appId: "1:346312589052:web:4a5ffe183df2d9c1efe179",
-  measurementId: "G-C9LMR8KBL0"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -47,7 +47,21 @@ if (commentForm && commentsList) {
             await addDoc(commentsColRef, {
                 author: authorInput.value,
                 text: textInput.value,
-                timestamp: serverTimestamp()imestamp.toDate().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'İndi';
+                timestamp: serverTimestamp(),
+                replyTo: replyToId
+            });
+
+            authorInput.value = '';
+            textInput.value = '';
+            replyToId = null;
+            replyInfo.classList.remove('active');
+        } catch (error) {
+            console.error("Şərh göndərilərkən xəta:", error);
+        }
+    });
+
+    function createCommentElement(id, data, isReply = false) {
+        const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'İndi';
         const div = document.createElement('div');
         div.className = 'comment-item';
         div.innerHTML = `
