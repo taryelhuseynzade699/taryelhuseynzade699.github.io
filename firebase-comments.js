@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/fireba
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDe6mS2vZydl_HqtUJknXRcmTclKXflSRo",
   authDomain: "taryel-huseynzade.firebaseapp.com",
   projectId: "taryel-huseynzade",
   storageBucket: "taryel-huseynzade.firebasestorage.app",
