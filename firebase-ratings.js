@@ -1,14 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getFirestore, doc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+const env = import.meta.env || {};
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -32,29 +34,17 @@ async function handleRatingClick(value) {
     }
 
     try {
-        const docSnap = await getDoc(ratingDocRef);
-        const ratingKey = String(value); // 1, 2, 3, 4, 5 sahələri üçün
+        const ratingNum = Number(value);
+        const ratingKey = String(ratingNum);
 
-        if (docSnap.exists()) {
-            await updateDoc(ratingDocRef, {
-                sum: increment(Number(value)),
-                count: increment(1),
-                [ratingKey]: increment(1)
-            });
-        } else {
-            const initialData = {
-                sum: Number(value),
-                count: 1,
-                "1": 0,
-                "2": 0,
-                "3": 0,
-                "4": 0,
-                "5": 0
-            };
-            initialData[ratingKey] = 1;
-            await setDoc(ratingDocRef, initialData);
-        }
+        await setDoc(ratingDocRef, {
+            sum: increment(ratingNum),
+            count: increment(1),
+            [ratingKey]: increment(1)
+        }, { merge: true });
+
         localStorage.setItem(`rated_${pagePath}`, value);
+        
         if (ratingMsg) {
             ratingMsg.textContent = "Qiymətləndirdiyiniz üçün təşəkkür edirik!";
             ratingMsg.style.color = document.body.classList.contains('dark-mode') ? '#34d399' : '#059669';
@@ -66,9 +56,10 @@ async function handleRatingClick(value) {
 }
 
 function updateStarsUI(value) {
+    const val = parseInt(value);
     ratingStars.forEach(s => {
         const starVal = parseInt(s.getAttribute('data-rating'));
-        if (starVal <= value) {
+        if (starVal <= val) {
             s.classList.add('selected');
         } else {
             s.classList.remove('selected');
@@ -83,8 +74,8 @@ function listenToRatings() {
 
         if (doc.exists()) {
             const data = doc.data();
-            const avg = (data.sum / data.count).toFixed(1);
-            avgDisplay.innerHTML = `Cari reytinq: <strong>${avg}</strong> / 5 (${data.count} səs)`;
+            const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : 0;
+            avgDisplay.innerHTML = `Cari reytinq: <strong>${avg}</strong> / 5 (${data.count || 0} səs)`;
         } else {
             avgDisplay.innerHTML = `Hələ qiymətləndirilməyib (0 səs)`;
         }
