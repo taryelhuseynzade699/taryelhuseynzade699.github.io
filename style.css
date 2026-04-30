@@ -411,55 +411,6 @@ footer {
     opacity: 0.8;
 }
 
-.article-rating {
-    margin-top: 35px;
-    padding-top: 25px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-body.dark-mode .article-rating {
-    border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-.rating-stars {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 15px 0;
-    direction: rtl;
-}
-
-.rating-stars span {
-    font-size: 2rem;
-    cursor: pointer;
-    color: #cbd5e1;
-    transition: color 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.rating-stars span:hover,
-.rating-stars span:hover ~ span,
-.rating-stars span.selected,
-.rating-stars span.selected ~ span {
-    color: #f59e0b;
-}
-
-.rating-stars span:hover {
-    transform: scale(1.3) rotate(15deg);
-    text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
-}
-
-.rating-stars span:active {
-    transform: scale(0.9);
-}
-
-.rating-message {
-    font-size: 0.95rem;
-    margin-top: 10px;
-    min-height: 1.4em;
-    font-weight: 500;
-}
-
 .view-count svg {
     margin-right: 2px;
 }

@@ -43,6 +43,8 @@ if (commentForm && commentsList) {
         const authorInput = document.getElementById('commentAuthor');
         const textInput = document.getElementById('commentText');
 
+        if (!authorInput.value.trim() || !textInput.value.trim()) return;
+
         try {
             await addDoc(commentsColRef, {
                 author: authorInput.value,
@@ -63,7 +65,7 @@ if (commentForm && commentsList) {
     function createCommentElement(id, data, isReply = false) {
         const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'İndi';
         const div = document.createElement('div');
-        div.className = 'comment-item';
+        div.className = isReply ? 'comment-item reply-item' : 'comment-item';
         div.innerHTML = `
             <div class="comment-header">
                 <span class="comment-author">${data.author}</span>
@@ -92,7 +94,30 @@ if (commentForm && commentsList) {
     const q = query(commentsColRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snapshot) => {
         commentsList.innerHTML = '';
-        const allComments = [];
-        const parents = allComme
-            commentsList.appendC
-            ement(child.id, chil
+        const allDocs = snapshot.docs.map(doc => ({ id: id.id, ...doc.data(), id: doc.id }));
+        
+        // Şərh sayını yenilə
+        const commentCountBadge = document.getElementById('commentCountBadge');
+        if (commentCountBadge) {
+            commentCountBadge.textContent = allDocs.length;
+        }
+
+        const parents = allDocs.filter(d => !d.replyTo);
+        const replies = allDocs.filter(d => d.replyTo);
+
+        parents.forEach(parent => {
+            const parentEl = createCommentElement(parent.id, parent);
+            commentsList.appendChild(parentEl);
+
+            const childReplies = replies.filter(r => r.replyTo === parent.id).reverse();
+            childReplies.forEach(child => {
+                const replyEl = createCommentElement(child.id, child, true);
+                commentsList.appendChild(replyEl);
+            });
+        });
+
+        if (allDocs.length === 0) {
+            commentsList.innerHTML = '<p style="opacity: 0.6; text-align: center;">Hələ şərh yazılmayıb. İlk şərhi siz yazın!</p>';
+        }
+    });
+}

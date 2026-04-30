@@ -1004,3 +1004,73 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+// Şərhlər düyməsinə klikləyəndə sürüşmə
+const scrollToCommentsBtn = document.getElementById('scrollToCommentsBtn');
+if (scrollToCommentsBtn) {
+    scrollToCommentsBtn.addEventListener('click', () => {
+        const commentsSection = document.querySelector('.comments-section');
+        if (commentsSection) {
+            commentsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+// Məqalə bəyənmə/bəyənməmə funksionallığı
+const likeArticleBtn = document.getElementById('likeArticleBtn');
+const dislikeArticleBtn = document.getElementById('dislikeArticleBtn');
+
+if (likeArticleBtn && dislikeArticleBtn) {
+    const articlePath = window.location.pathname;
+    const storageKey = `article_reactions_${articlePath}`;
+    
+    let reactions = JSON.parse(localStorage.getItem(storageKey) || '{"likes": 0, "dislikes": 0, "userAction": null}');
+    
+
+    const updateArticleReactionUI = () => {
+        const likeCountSpan = document.getElementById('likeCount');
+        const dislikeCountSpan = document.getElementById('dislikeCount');
+        
+        if (likeCountSpan) likeCountSpan.textContent = reactions.likes;
+        if (dislikeCountSpan) dislikeCountSpan.textContent = reactions.dislikes;
+        
+        likeArticleBtn.style.color = reactions.userAction === 'like' ? '#2563eb' : '';
+        likeArticleBtn.style.borderColor = reactions.userAction === 'like' ? '#2563eb' : '';
+        
+        dislikeArticleBtn.style.color = reactions.userAction === 'dislike' ? '#ef4444' : '';
+        dislikeArticleBtn.style.borderColor = reactions.userAction === 'dislike' ? '#ef4444' : '';
+    };
+
+    updateArticleReactionUI();
+
+    likeArticleBtn.addEventListener('click', () => {
+        if (reactions.userAction === 'like') {
+            reactions.likes = Math.max(0, reactions.likes - 1);
+            reactions.userAction = null;
+        } else {
+            if (reactions.userAction === 'dislike') {
+                reactions.dislikes = Math.max(0, reactions.dislikes - 1);
+            }
+            reactions.likes++;
+            reactions.userAction = 'like';
+            if (typeof triggerConfetti === 'function') triggerConfetti(likeArticleBtn);
+        }
+        localStorage.setItem(storageKey, JSON.stringify(reactions));
+        updateArticleReactionUI();
+    });
+
+    dislikeArticleBtn.addEventListener('click', () => {
+        if (reactions.userAction === 'dislike') {
+            reactions.dislikes = Math.max(0, reactions.dislikes - 1);
+            reactions.userAction = null;
+        } else {
+            if (reactions.userAction === 'like') {
+                reactions.likes = Math.max(0, reactions.likes - 1);
+            }
+            reactions.dislikes++;
+            reactions.userAction = 'dislike';
+        }
+        localStorage.setItem(storageKey, JSON.stringify(reactions));
+        updateArticleReactionUI();
+    });
+}

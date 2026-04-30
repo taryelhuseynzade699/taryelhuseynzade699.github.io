@@ -6,9 +6,6 @@
     <title>Paketlənmiş məhsulların zərərləri - Taryel Hüseynzadə</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/png" href="favicon.ico">
-    <style>
-        .back-link { display: inline-block; margin-bottom: 20px; color: var(--primary-color); text-decoration: none; font-weight: bold; }
-    </style>
 </head>
 <body>
     <div class="progress-container">
@@ -37,7 +34,7 @@
 
     <div class="article-content">
         <span class="category-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.92 16A8.962 8.962 0 0 0 22 12c0-4.42-3.58-8-8-8s-8 3.58-8 8c0 1.22.28 2.35.78 3.33L4 20l4.67-1.33c.98.5 2.11.78 3.33.78 4.42 0 8-3.58 8-8Z"/></svg>
             Sağlamlıq
         </span>
         <h1>Paketlənmiş məhsulların zərərləri</h1>
@@ -45,7 +42,7 @@
             <div class="meta-row">
                 <span class="publish-date">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    10 Aprel, 2026
+                    25 Aprel, 2026
                 </span>
                 <span class="publish-date">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -64,7 +61,23 @@
             </div>
         </div>
 
-        <div style="margin-bottom: 25px;">
+        <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+            <a href="../videos/paketlenmis_mehsullarin_zererleri.html" class="btn" style="opacity: 1; animation: none;">Videonu izlə</a>
+            <button id="likeArticleBtn" class="btn" style="opacity: 1; animation: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); position: relative;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                <span id="likeCount">0</span>
+            </button>
+            <button id="dislikeArticleBtn" class="btn" style="opacity: 1; animation: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zM17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg>
+                <span id="dislikeCount">0</span>
+            </button>
+            <button id="scrollToCommentsBtn" class="btn" style="opacity: 1; animation: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Şərhlər (<span id="commentCountBadge">0</span>)
+            </button>
+        </div>
+
+        <div style="margin-bottom: 15px;">
             <button id="listenBtn" class="btn" style="opacity: 1; animation: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; background-color: #10b981;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                 Bu məqaləni dinləyin
@@ -106,36 +119,16 @@
 
         <p><strong>Yüksək Qan Təzyiqi:</strong> Həddindən artıq duz qəbulu hipertoniyaya, bu isə öz növbəsində insult və infarkt riskinə yol açır.</p>
 
-        <p><strong>Böyrək Yükü:</strong> Böyrəklər artıq duzu bədəndən çıxarmaq üçün həddindən artıq yüklənir.</p>
+        <p><strong>Ödem və Böyrək Problemləri:</strong> Duz bədəndə su saxlayır (ödem), bu da böyrəklərə əlavə yük düşməsinə səbəb olur.</p>
 
-        <p><strong>5. Qablaşdırma Materiallarının Təhlükəsi</strong></p>
+        <p><strong>5. Plastik Qablaşdırmanın Təsiri</strong></p>
 
-        <p>Zərər təkcə qidanın tərkibində deyil, həm də onun içində olduğu qabdadır. Plastik qablaşdırmalar, xüsusən də isti ilə təmasda olduqda qidaya kimyəvi maddələr sızdıra bilər.</p>
+        <p>Təkcə qidanın özü deyil, onun qablaşdırıldığı plastik də zərərli ola bilər. Xüsusən də isti qidaların plastik qablarda saxlanılması və ya mikrodalğalı sobada qızdırılması plastikdəki kimyəvi maddələrin (BPA, ftalatlar) qidaya keçməsinə səbəb olur. Bu maddələr bədəndə hormon balansını pozur.</p>
 
-        <p><strong>BPA (Bisfenol A):</strong> Bir çox plastik qabda tapılan bu maddə hormonal pozuntulara və bəzi xərçəng növlərinin inkişafına səbəb ola bilər.</p>
+        <p><strong>Nəticə</strong></p>
+        <p>Paketlənmiş və emal olunmuş qidalar müasir həyatın qaçılmaz hissəsi olsa da, onlardan istifadəni minimuma endirmək sağlamlığımız üçün ən yaxşı sərmayədir. Təbii və təzə qidalara üstünlük verməklə, biz həm özümüzü, həm də gələcək nəsilləri bir çox xroniki xəstəliklərdən qorumuş olarıq.</p>
 
-        <p><strong>Mikroplastiklər:</strong> Son araşdırmalar göstərir ki, paketlənmiş qidalar və sular vasitəsilə bədənimizə mikroskopik plastik hissəcikləri daxil olur.</p>
-
-        <p><strong>6. Lif və Vitamin Çatışmazlığı</strong></p>
-
-        <p>Emal prosesi zamanı qidaların tərkibindəki təbii liflər, vitaminlər və minerallar itir. İstehsalçılar sonradan məhsula süni vitaminlər əlavə etsələr də ("Zənginləşdirilmiş" etiketi ilə), bunlar heç vaxt təbii qidanın verdiyi faydanı əvəz etmir. Lif çatışmazlığı isə həzm sisteminin yavaşlamasına və qəbizliyə səbəb olur.</p>
-
-        <p><strong>Nəticə və Tövsiyələr</strong></p>
-
-        <p>Tamamilə paketlənmiş məhsullardan imtina etmək müasir dünyada çətin görünə bilər, lakin bu təsirləri minimuma endirmək mümkündür:</p>
-
-        <p><strong>Etiketləri oxuyun:</strong> Tərkibində tanımadığınız kimyəvi adlar çoxdursa, o məhsuldan uzaq durun.</p>
-
-        <p><strong>Mövsümi qidalanın:</strong> Dondurulmuş və ya konservləşdirilmiş meyvə-tərəvəz əvəzinə təzəsini seçin.</p>
-
-        <p><strong>Evdə hazırlayın:</strong> Souslarınızı, qəlyanaltılarınızı evdə hazırlamaqla tərkibindəki duz və şəkər miqdarına özünüz nəzarət edin.</p>
-
-        <p><strong>İşlənmiş ətdən qaçın:</strong> Kolbasa, sosis və vetçina kimi məhsullar Ümumdünya Səhiyyə Təşkilatı tərəfindən kanserogen qrupuna daxil edilib.</p>
-
-        <p>Sağlamlıq ən böyük sərvətdir və bu sərvəti qorumaq üçün nə yediyimizə diqqət yetirmək bizim öz əlimizdədir. Bunu unutmayın.</p>
-
-        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-            <a href="../videos/paketlenmis_mehsullarin_zererleri.html" class="btn" style="opacity: 1; animation: none;">Videonu izlə</a>
+        <div style="margin-bottom: 25px;">
             <button id="shareBtn" class="btn" style="opacity: 1; animation: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="18" cy="5" r="3"></circle>
@@ -180,13 +173,13 @@
             <a href="usaqlarin_duzgun_qidalanmasi_nece_olmalidir.html" class="project-card reveal">
                 <img src="../images/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.jpg" alt="Uşaqların düzgün qidalanması" class="card-image">
                 <h3>Uşaqların düzgün qidalanması necə olmalıdır?</h3>
-                <p>Uşaqların sağlam böyüməsi və inkişafı üçün düzgün qidalanmanın əhəmiyyəti və faydalı tövsiyələr.</p>
+                <p>Uşaqların sağlam böyüməsi üçün balanslı qidalanma və valideynlərin diqqət etməli olduğu məqamlar.</p>
                 <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
             </a>
-            <a href="usagi_danisdirmaq_ucun_ne_etmeliyik.html" class="project-card reveal">
-                <img src="../images/valideyn.jpg" alt="Uşağı danışdırmaq" class="card-image">
-                <h3>Uşağı danışdırmaq üçün nə etməliyik?</h3>
-                <p>Uşaqların nitq inkişafı və valideynlərin bu prosesdəki rolu haqqında ətraflı məqalə.</p>
+            <a href="usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html" class="project-card reveal">
+                <img src="../images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg" alt="Beyin inkişafı" class="card-image">
+                <h3>Uşaqların beyin inkişafı üçün nə etmək lazımdır?</h3>
+                <p>Erkən yaşlarda beyin inkişafını dəstəkləyən amillər, oyunlar və düzgün qidalanma haqqında.</p>
                 <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
             </a>
         </div>
@@ -195,10 +188,10 @@
     <section class="section">
         <h2 class="section-title">Ən Yaxşı Məqalələr</h2>
         <div class="projects-grid">
-            <a href="usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.html" class="project-card reveal">
-                <img src="../images/usaqlarin_duzgun_yuxu_rejimi_nece_olmalidir.jpg" alt="Uşaqların düzgün yuxu rejimi" class="card-image">
-                <h3>Uşaqların düzgün yuxu rejimi necə olmalıdır?</h3>
-                <p>Uşaqların fiziki və zehni inkişafı üçün yuxunun əhəmiyyəti və düzgün rejim qurma yolları.</p>
+            <a href="usagi_danisdirmaq_ucun_ne_etmeliyik.html" class="project-card reveal">
+                <img src="../images/valideyn.jpg" alt="Uşağı danışdırmaq" class="card-image">
+                <h3>Uşağı danışdırmaq üçün nə etməliyik?</h3>
+                <p>Uşaqların nitq inkişafı və valideynlərin bu prosesdəki rolu haqqında ətraflı məqalə.</p>
                 <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
             </a>
         </div>
