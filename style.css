@@ -20,7 +20,12 @@ body {
     background-attachment: fixed;
     color: var(--text-color);
     line-height: 1.6;
-    transition: padding-bottom 0.4s ease;
+    transition: padding-bottom 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Menyu açıq olduqda skrolu bağlamaq üçün */
+body.no-scroll {
+    overflow: hidden;
 }
 
 body.has-player {
@@ -266,8 +271,27 @@ nav a:hover {
 
 /* Tünd Rejim Stilləri */
 body.dark-mode {
-    background: #000;
-    color: #f8fafc;
+    background: #000000;
+    color: #f1f5f9;
+}
+
+body.dark-mode ::selection {
+    background-color: rgba(37, 99, 235, 0.4);
+    color: #fff;
+}
+
+body.dark-mode::-webkit-scrollbar {
+    width: 12px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: #334155;
+    border: 3px solid #000000;
+    border-radius: 10px;
 }
 
 body.dark-mode header {
@@ -275,7 +299,7 @@ body.dark-mode header {
     border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .logo, 
+body.dark-mode .logo,
 body.dark-mode .hero h1,
 body.dark-mode .section-title {
     color: #fff;
@@ -283,7 +307,7 @@ body.dark-mode .section-title {
 
 body.dark-mode nav a,
 body.dark-mode .search-icon {
-    color: #94a3b8;
+    color: #fff;
 }
 
 body.dark-mode .like-btn:hover,
@@ -310,6 +334,12 @@ body.dark-mode .video-description {
     border-color: rgba(255, 255, 255, 0.1);
     color: #f8fafc;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+body.dark-mode .project-card:hover {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(96, 165, 250, 0.15);
 }
 
 body.dark-mode .article-content h1 {
@@ -402,7 +432,8 @@ footer {
     flex-wrap: wrap;
 }
 
-.publish-date, .view-count {
+.publish-date,
+.view-count {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -417,7 +448,8 @@ footer {
 
 /* Sinema Rejimi (Cinema Mode) */
 .cinema-mode {
-    background: #000 !important; /* Qara fon */
+    background: #000 !important;
+    /* Qara fon */
     color: #f8fafc;
     transition: background 0.5s ease;
 }
@@ -440,7 +472,8 @@ footer {
     width: 100%;
     height: 4px;
     background: rgba(255, 255, 255, 0.1);
-    z-index: 2000; /* Header-dən yuxarıda görünməsi üçün */
+    z-index: 2000;
+    /* Header-dən yuxarıda görünməsi üçün */
 }
 
 .progress-bar {
@@ -463,8 +496,15 @@ footer {
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Hamburger Menyu Üslubları */
@@ -499,17 +539,20 @@ footer {
 
 @media (max-width: 768px) {
     header {
-        padding: 0.8rem 15px; /* Mobil ekranlarda kənar boşluqları optimallaşdırdım */
+        padding: 0.8rem 15px;
+        /* Mobil ekranlarda kənar boşluqları optimallaşdırdım */
     }
 
     .logo {
-        font-size: 1.25rem; /* Kiçik ekranlarda loqonun daha yaxşı sığması üçün */
+        font-size: 1.25rem;
+        /* Kiçik ekranlarda loqonun daha yaxşı sığması üçün */
     }
 
     .search-icon {
         order: 0;
         margin-left: 5px;
-        margin-right: 10px; /* Hamburger ikonuna olan məsafə */
+        margin-right: 10px;
+        /* Hamburger ikonuna olan məsafə */
     }
 
     .hamburger {
@@ -525,9 +568,9 @@ footer {
         visibility: hidden;
         width: 100%;
         height: 100vh;
-        background: rgba(15, 23, 42, 0.95);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -542,17 +585,17 @@ footer {
         visibility: visible;
     }
 
-    .hamburger.active span {
-        background-color: #fff;
-    }
-
     .nav-links a {
-        margin: 10px 0 !important;
-        font-size: 1.8rem;
-        color: #fff;
+        margin: 12px 0 !important;
+        font-size: 1.5rem;
+        color: var(--dark-color);
+        padding: 10px 30px;
+        border-radius: 12px;
+        width: 70%;
+        text-align: center;
         opacity: 0;
         transform: translateY(20px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .nav-links.active a {
@@ -560,11 +603,44 @@ footer {
         transform: translateY(0);
     }
 
-    .nav-links.active a:nth-child(1) { transition-delay: 0.1s; }
-    .nav-links.active a:nth-child(2) { transition-delay: 0.2s; }
-    .nav-links.active a:nth-child(3) { transition-delay: 0.3s; }
-    .nav-links.active a:nth-child(4) { transition-delay: 0.4s; }
-    .nav-links.active a:nth-child(5) { transition-delay: 0.5s; }
+    .nav-links.active a:nth-child(1) {
+        transition-delay: 0.1s;
+    }
+
+    .nav-links.active a:nth-child(2) {
+        transition-delay: 0.2s;
+    }
+
+    .nav-links.active a:nth-child(3) {
+        transition-delay: 0.3s;
+    }
+
+    .nav-links.active a:nth-child(4) {
+        transition-delay: 0.4s;
+    }
+
+    .nav-links.active a:nth-child(5) {
+        transition-delay: 0.5s;
+    }
+
+    /* Tünd Rejim Mobil Menyu Təkmilləşdirmələri */
+    body.dark-mode .nav-links {
+        background: radial-gradient(circle at top right, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
+        border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-mode .nav-links a {
+        color: #f1f5f9;
+    }
+
+    body.dark-mode .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #60a5fa !important;
+    }
+
+    body.dark-mode .hamburger.active span {
+        background-color: #fff;
+    }
 }
 
 /* Axtarış Overlay Styles */
@@ -688,9 +764,20 @@ footer {
 }
 
 @keyframes pulse-red {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
 }
 
 .clear-search:hover {
@@ -768,13 +855,40 @@ footer {
 }
 
 /* Fərdi Kateqoriya Rəngləri */
-.cat-qidalanma { background: rgba(245, 158, 11, 0.1) !important; color: #f59e0b !important; }
-.cat-yuxu { background: rgba(139, 92, 246, 0.1) !important; color: #8b5cf6 !important; }
-.cat-beyin { background: rgba(59, 130, 246, 0.1) !important; color: #3b82f6 !important; }
-.cat-nitq { background: rgba(239, 68, 68, 0.1) !important; color: #ef4444 !important; }
-.cat-saglamliq { background: rgba(16, 185, 129, 0.1) !important; color: #10b981 !important; }
-.cat-musiqi { background: rgba(236, 72, 153, 0.1) !important; color: #ec4899 !important; }
-.cat-asude { background: rgba(6, 182, 212, 0.1) !important; color: #06b6d4 !important; }
+.cat-qidalanma {
+    background: rgba(245, 158, 11, 0.1) !important;
+    color: #f59e0b !important;
+}
+
+.cat-yuxu {
+    background: rgba(139, 92, 246, 0.1) !important;
+    color: #8b5cf6 !important;
+}
+
+.cat-beyin {
+    background: rgba(59, 130, 246, 0.1) !important;
+    color: #3b82f6 !important;
+}
+
+.cat-nitq {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: #ef4444 !important;
+}
+
+.cat-saglamliq {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+}
+
+.cat-musiqi {
+    background: rgba(236, 72, 153, 0.1) !important;
+    color: #ec4899 !important;
+}
+
+.cat-asude {
+    background: rgba(6, 182, 212, 0.1) !important;
+    color: #06b6d4 !important;
+}
 
 .category-tag svg {
     width: 12px;
@@ -782,13 +896,40 @@ footer {
 }
 
 /* Dark Mode üçün fərdi rənglər */
-body.dark-mode .cat-qidalanma { background: rgba(245, 158, 11, 0.2) !important; color: #fbbf24 !important; }
-body.dark-mode .cat-yuxu { background: rgba(139, 92, 246, 0.2) !important; color: #a78bfa !important; }
-body.dark-mode .cat-beyin { background: rgba(59, 130, 246, 0.2) !important; color: #60a5fa !important; }
-body.dark-mode .cat-nitq { background: rgba(239, 68, 68, 0.2) !important; color: #f87171 !important; }
-body.dark-mode .cat-saglamliq { background: rgba(16, 185, 129, 0.2) !important; color: #34d399 !important; }
-body.dark-mode .cat-musiqi { background: rgba(236, 72, 153, 0.2) !important; color: #f472b6 !important; }
-body.dark-mode .cat-asude { background: rgba(6, 182, 212, 0.2) !important; color: #22d3ee !important; }
+body.dark-mode .cat-qidalanma {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .cat-yuxu {
+    background: rgba(139, 92, 246, 0.2) !important;
+    color: #a78bfa !important;
+}
+
+body.dark-mode .cat-beyin {
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: #60a5fa !important;
+}
+
+body.dark-mode .cat-nitq {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+}
+
+body.dark-mode .cat-saglamliq {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+}
+
+body.dark-mode .cat-musiqi {
+    background: rgba(236, 72, 153, 0.2) !important;
+    color: #f472b6 !important;
+}
+
+body.dark-mode .cat-asude {
+    background: rgba(6, 182, 212, 0.2) !important;
+    color: #22d3ee !important;
+}
 
 .category-tag:hover {
     background: rgba(16, 185, 129, 0.2);
@@ -878,6 +1019,7 @@ body.dark-mode .comment-count-tag {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -986,33 +1128,40 @@ body.dark-mode .search-box button {
     .search-overlay {
         padding-top: 20px;
     }
+
     .search-container {
         padding: 10px;
     }
+
     .search-results {
         margin-top: 15px;
         padding: 5px;
         max-height: calc(100vh - 180px);
     }
+
     .search-results .project-card {
         flex-direction: column;
         gap: 10px;
         padding: 10px;
         margin-bottom: 15px;
     }
+
     .search-results .project-card h3 {
         font-size: 0.95rem;
         line-height: 1.3;
         margin-top: 5px;
     }
+
     .search-results .project-card p {
         font-size: 0.8rem;
         line-height: 1.4;
     }
+
     .card-tags {
         gap: 5px;
         margin-bottom: 5px;
     }
+
     .img-placeholder {
         width: 100%;
         height: 150px;
@@ -1063,9 +1212,19 @@ body.dark-mode .no-results svg {
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
 }
 
 /* Son Axtarışlar Styles */
@@ -1237,13 +1396,34 @@ body.dark-mode .category-item:active {
     border-radius: 4px;
 }
 
-.skeleton-img { width: 120px; height: 80px; border-radius: 8px; }
-.skeleton-content { flex: 1; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-.skeleton-title { width: 40%; height: 18px; }
-.skeleton-text { width: 80%; height: 14px; }
+.skeleton-img {
+    width: 120px;
+    height: 80px;
+    border-radius: 8px;
+}
+
+.skeleton-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.skeleton-title {
+    width: 40%;
+    height: 18px;
+}
+
+.skeleton-text {
+    width: 80%;
+    height: 14px;
+}
 
 @keyframes skeleton-loading {
-    to { background-position: -200% 0; }
+    to {
+        background-position: -200% 0;
+    }
 }
 
 /* Tünd rejim üçün skeleton */
@@ -1258,13 +1438,17 @@ body.dark-mode .skeleton-card {
 }
 
 @media (max-width: 768px) {
-    .skeleton-card { 
-        flex-direction: column; 
+    .skeleton-card {
+        flex-direction: column;
         gap: 12px;
         padding: 12px;
         margin-bottom: 15px;
     }
-    .skeleton-img { width: 100%; height: 150px; }
+
+    .skeleton-img {
+        width: 100%;
+        height: 150px;
+    }
 }
 
 /* Audio Player Panel */
@@ -1377,7 +1561,8 @@ body.dark-mode .audio-player-panel .time-display {
 @media (max-width: 768px) {
     .audio-player-panel {
         padding: 15px 20px;
-        padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Müasir mobil cihazlar üçün */
+        padding-bottom: calc(15px + env(safe-area-inset-bottom));
+        /* Müasir mobil cihazlar üçün */
     }
 
     .audio-player-panel .audio-controls {
@@ -1411,7 +1596,8 @@ body.dark-mode .audio-player-panel .time-display {
     }
 
     .audio-player-panel .audio-progress {
-        height: 6px; /* Mobil ekranlarda asan toxunmaq üçün */
+        height: 6px;
+        /* Mobil ekranlarda asan toxunmaq üçün */
     }
 }
 
@@ -1559,7 +1745,8 @@ body.dark-mode .audio-player-panel .skip-btn {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.4s, bottom 0.4s ease;
-    z-index: 2600; /* Audio player-dən yuxarıda olması üçün */
+    z-index: 2600;
+    /* Audio player-dən yuxarıda olması üçün */
     transform: translateY(30px) scale(0.5);
     pointer-events: none;
 }
@@ -1573,12 +1760,14 @@ body.dark-mode .audio-player-panel .skip-btn {
 }
 
 .scroll-top-btn.player-active {
-    bottom: 100px; /* Pleyer açıq olduqda düyməni yuxarı qaldırırıq */
+    bottom: 100px;
+    /* Pleyer açıq olduqda düyməni yuxarı qaldırırıq */
 }
 
 @media (max-width: 768px) {
     .scroll-top-btn.player-active {
-        bottom: 125px; /* Mobildə pleyer daha çox yer tutduğu üçün daha çox qaldırırıq */
+        bottom: 125px;
+        /* Mobildə pleyer daha çox yer tutduğu üçün daha çox qaldırırıq */
     }
 }
 
@@ -1605,14 +1794,30 @@ body.dark-mode .audio-player-panel .skip-btn {
 }
 
 @keyframes pulse-attention {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes ripple {
-    0% { transform: scale(1); opacity: 0.6; }
-    100% { transform: scale(2.2); opacity: 0; }
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
 }
 
 .scroll-top-btn svg {
@@ -1630,10 +1835,23 @@ body.dark-mode .audio-player-panel .skip-btn {
 }
 
 @keyframes springIn {
-    0% { opacity: 0; transform: translateY(40px) scale(0.3); }
-    60% { transform: translateY(-10px) scale(1.1); }
-    80% { transform: translateY(5px) scale(0.95); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.3);
+    }
+
+    60% {
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    80% {
+        transform: translateY(5px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 body.dark-mode .scroll-top-btn {
@@ -1724,7 +1942,7 @@ body.dark-mode .comment-item {
     object-fit: cover;
     flex-shrink: 0;
     border: 2px solid #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #e2e8f0;
     display: flex;
     align-items: center;
@@ -1770,7 +1988,8 @@ body.dark-mode .comment-author {
     gap: 15px;
 }
 
-.comment-form input, .comment-form textarea {
+.comment-form input,
+.comment-form textarea {
     padding: 12px;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1781,17 +2000,19 @@ body.dark-mode .comment-author {
     transition: border-color 0.3s;
 }
 
-body.dark-mode .comment-form input, body.dark-mode .comment-form textarea {
+body.dark-mode .comment-form input,
+body.dark-mode .comment-form textarea {
     background: rgba(15, 23, 42, 0.8);
     border-color: rgba(255, 255, 255, 0.15);
     color: #fff;
 }
 
-.comment-form input:focus, .comment-form textarea:focus {
+.comment-form input:focus,
+.comment-form textarea:focus {
     border-color: var(--primary-color);
 }
 
-body.dark-mode .comment-form input:focus, 
+body.dark-mode .comment-form input:focus,
 body.dark-mode .comment-form textarea:focus {
     border-color: #60a5fa;
     background: rgba(15, 23, 42, 0.95);
@@ -1820,7 +2041,8 @@ body.dark-mode .comment-form textarea:focus {
     padding: 0;
 }
 
-.like-btn:hover, .like-btn.liked {
+.like-btn:hover,
+.like-btn.liked {
     opacity: 1;
     color: var(--primary-color);
 }
@@ -1940,7 +2162,7 @@ body.dark-mode .comment-replies {
     width: 90%;
     max-width: 400px;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     transform: scale(0.9);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -1952,7 +2174,7 @@ body.dark-mode .comment-replies {
 body.dark-mode .custom-modal {
     background: #1e293b;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modal-btns {
@@ -1981,5 +2203,49 @@ body.dark-mode .custom-modal {
     color: white;
 }
 
-.btn-confirm-delete:hover { background: #dc2626; }
-.btn-cancel:hover { background: #cbd5e1; }
+.btn-confirm-delete:hover {
+    background: #dc2626;
+}
+
+.btn-cancel:hover {
+    background: #cbd5e1;
+}
+
+/* --- Colorful Glowing Hover Effect --- */
+@keyframes rainbow-glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.project-card, .btn, .modal-btn, .voice-search-btn, .reply-btn, .like-btn, .delete-btn, .skip-btn, .play-pause-btn, .speed-btn, .clear-search {
+    position: relative;
+    z-index: 0;
+}
+
+.hamburger {
+    position: relative;
+    z-index: 1001;
+}
+
+.project-card::before, .btn::before, .modal-btn::before, .voice-search-btn::before, .reply-btn::before, .like-btn::before, .delete-btn::before, .skip-btn::before, .play-pause-btn::before, .speed-btn::before, .hamburger::before, .clear-search::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: linear-gradient(45deg, #161616, #FF0000, #FF7300, #FFFB00, #48FF00, #00FFD5, #002BFF, #FF00C8, #161616);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: rainbow-glow 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: inherit;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.project-card:hover::before, .btn:hover::before, .modal-btn:hover::before, .voice-search-btn:hover::before, .reply-btn:hover::before, .like-btn:hover::before, .delete-btn:hover::before, .skip-btn:hover::before, .play-pause-btn:hover::before, .speed-btn:hover::before, .hamburger:hover::before, .clear-search:hover::before {
+    opacity: 1;
+}

@@ -5,6 +5,7 @@ const navLinks = document.getElementById('nav-links');
 hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('active');
     hamburger.classList.toggle('active');
+    document.body.classList.toggle('no-scroll');
 });
 
 // Linkə kliklədikdə menyunun bağlanması
@@ -12,6 +13,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         navLinks.classList.remove('active');
         hamburger.classList.remove('active');
+        document.body.classList.remove('no-scroll');
     });
 });
 
@@ -49,7 +51,7 @@ const themeBtns = {
 
 function applyTheme(theme) {
     document.body.classList.remove('dark-mode');
-    
+
     let targetTheme = theme;
     if (theme === 'system') {
         targetTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -162,7 +164,7 @@ if (listenBtn && articleAudio) {
             const speed = parseFloat(option.dataset.speed);
             articleAudio.playbackRate = speed;
             panelSpeed.textContent = speed + 'x';
-            
+
             document.querySelectorAll('.speed-option').forEach(opt => opt.classList.remove('active'));
             option.classList.add('active');
             speedMenu.classList.remove('active');
@@ -192,10 +194,10 @@ if (listenBtn && articleAudio) {
         const isPaused = articleAudio.paused;
         const scrollBtn = document.querySelector('.scroll-top-btn');
 
-        panelBtn.innerHTML = isPaused 
+        panelBtn.innerHTML = isPaused
             ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
             : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
-        
+
         if (!isPaused) {
             playerUI.classList.add('active');
             document.body.classList.add('has-player');
@@ -403,7 +405,7 @@ if (searchInput && clearSearch && searchBox) {
 if (voiceSearchBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    
+
     recognition.lang = 'az-AZ';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -452,7 +454,7 @@ if (trendingTags.length > 0) {
         tag.addEventListener('click', () => {
             searchInput.value = tag.textContent;
             searchBox.classList.add('has-text');
-            
+
             // Animasiyalı keçid məntiqi
             if (trendingSearches) trendingSearches.classList.add('fade-out');
             if (recentSearches) recentSearches.classList.add('fade-out');
@@ -490,7 +492,7 @@ function getRecentSearches() {
 function saveSearch(term) {
     const query = term.toLowerCase().trim();
     if (!query) return;
-    
+
     let searches = getRecentSearches();
     searches = searches.filter(s => s.toLowerCase() !== query);
     searches.unshift(term.trim());
@@ -500,17 +502,17 @@ function saveSearch(term) {
 
 function displayRecentSearches() {
     if (!recentSearches || !recentTags) return;
-    
+
     const searches = getRecentSearches();
     if (searches.length > 0) {
         recentSearches.style.display = 'block';
         recentTags.innerHTML = searches.map(s => `<span class="recent-tag">${s}</span>`).join('');
-        
+
         recentTags.querySelectorAll('.recent-tag').forEach(tag => {
             tag.addEventListener('click', () => {
                 searchInput.value = tag.textContent;
                 searchBox.classList.add('has-text');
-                
+
                 // Animasiyalı keçid məntiqi
                 if (trendingSearches) trendingSearches.classList.add('fade-out');
                 if (recentSearches) recentSearches.classList.add('fade-out');
@@ -560,7 +562,7 @@ function showSkeletons() {
 
 function performSearch(query) {
     if (!searchResults) return;
-    
+
     const term = query.trim();
     if (term === '') {
         searchResults.innerHTML = '';
@@ -591,8 +593,8 @@ function performSearch(query) {
         "Asudə vaxt": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>'
     };
 
-    const results = siteContent.filter(item => 
-        item.title.toLowerCase().includes(lowerSearchTerm) || 
+    const results = siteContent.filter(item =>
+        item.title.toLowerCase().includes(lowerSearchTerm) ||
         item.desc.toLowerCase().includes(lowerSearchTerm) ||
         item.category.toLowerCase().includes(lowerSearchTerm)
     );
@@ -607,7 +609,7 @@ function performSearch(query) {
         searchResults.innerHTML = results.map((item, index) => {
             let imgSrc = item.img;
             if (!imgSrc.startsWith('http') && isSubPage) imgSrc = '../' + imgSrc;
-            
+
             const highlightedTitle = item.title.replace(regex, '<strong>$1</strong>');
             const highlightedDesc = item.desc.replace(regex, '<strong>$1</strong>');
             const categoryIcon = categoryIcons[item.category] || '';
@@ -692,18 +694,18 @@ document.addEventListener('click', (e) => {
     const target = e.target.closest('.category-tag, .category-item');
     if (target) {
         const categoryName = target.textContent.trim();
-        
+
         if (searchOverlay && searchInput && searchBox) {
             searchOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
             searchInput.value = categoryName;
             searchBox.classList.add('has-text');
-            
+
             if (trendingSearches) trendingSearches.style.display = 'none';
             if (recentSearches) recentSearches.style.display = 'none';
             if (categoriesSection) categoriesSection.style.display = 'none';
             if (voiceSearchBtn) voiceSearchBtn.style.display = 'none';
-            
+
             showSkeletons();
             setTimeout(() => performSearch(categoryName), 300);
         }
@@ -716,7 +718,7 @@ document.addEventListener('click', (e) => {
     if (likeBtn) {
         const countSpan = likeBtn.parentElement.querySelector('.like-count');
         let count = parseInt(countSpan.textContent);
-        
+
         if (likeBtn.classList.contains('liked')) {
             likeBtn.classList.remove('liked');
             count--;
@@ -730,7 +732,7 @@ document.addEventListener('click', (e) => {
             // Konfeti effekti
             triggerConfetti(likeBtn);
         }
-        
+
         countSpan.textContent = count;
     }
 });
@@ -778,17 +780,17 @@ function generateAvatarData(name) {
         '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
         '#ec4899', '#06b6d4', '#f97316', '#14b8a6', '#6366f1'
     ];
-    
+
     // Adın baş hərfini götürür (və ya '?' qoyur)
     const initial = name ? name.trim().charAt(0).toUpperCase() : '?';
-    
+
     // Adın hərflərinin koduna görə unikal bir rəng indeksi seçir
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
         hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
     const colorIndex = Math.abs(hash) % colors.length;
-    
+
     return {
         initial: initial,
         color: colors[colorIndex]
@@ -843,10 +845,10 @@ if (commentForm && commentsList) {
     // Yeni şərh göndəriləndə
     commentForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const nameInput = commentForm.querySelector('input[type="text"]');
         const textInput = commentForm.querySelector('textarea');
-        
+
         const newComment = {
             author: nameInput.value,
             text: textInput.value,
@@ -902,7 +904,7 @@ if (commentForm && commentsList) {
     document.getElementById('confirmDelete').addEventListener('click', () => {
         if (commentToDelete) {
             const commentId = parseInt(commentToDelete.getAttribute('data-id'));
-            
+
             // LocalStorage-dən sil
             let currentComments = JSON.parse(localStorage.getItem(`comments_${pageIdentifier}`) || '[]');
             currentComments = currentComments.filter(c => c.timestamp !== commentId);
@@ -912,7 +914,7 @@ if (commentForm && commentsList) {
             commentToDelete.style.opacity = '0';
             commentToDelete.style.transform = 'translateX(20px)';
             setTimeout(() => commentToDelete.remove(), 300);
-            
+
             modal.classList.remove('active');
             commentToDelete = null;
         }
@@ -929,7 +931,7 @@ function updateCardCommentCounts() {
             const url = new URL(card.href);
             const path = url.pathname;
             const comments = JSON.parse(localStorage.getItem(`comments_${path}`) || '[]');
-            
+
             let tagsContainer = card.querySelector('.card-tags');
             // Əgər tag konteyneri yoxdursa, onu yaradaq
             if (!tagsContainer) {
@@ -950,7 +952,7 @@ function updateCardCommentCounts() {
                 countTag.title = "Şərhlərə keçid";
                 tagsContainer.appendChild(countTag);
             }
-            
+
             countTag.innerHTML = `
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 3px;">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -965,7 +967,7 @@ function updateCardCommentCounts() {
 
 window.addEventListener('load', () => {
     updateCardCommentCounts();
-    
+
     // Əgər səhifə birbaşa şərh linki ilə açılıbsa, rəvan sürüşməni aktiv et
     if (window.location.hash === '#comments-section') {
         const element = document.getElementById('comments-section');
@@ -983,13 +985,13 @@ document.addEventListener('click', (e) => {
     if (commentTag) {
         const card = commentTag.closest('.project-card');
         const href = card?.getAttribute('href');
-        
+
         if (href) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const targetUrl = new URL(href, window.location.origin);
-            
+
             // Əgər artıq həmin səhifədəyiksə, sadəcə aşağı sürüşürük
             if (targetUrl.pathname === window.location.pathname) {
                 const element = document.getElementById('comments-section');
