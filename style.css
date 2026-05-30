@@ -1332,9 +1332,8 @@ body.dark-mode .trending-tag {
 
 .category-list {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-width: 400px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .category-item {
@@ -1359,7 +1358,7 @@ body.dark-mode .trending-tag {
 
 .category-item:hover {
     background: rgba(16, 185, 129, 0.15);
-    transform: translateX(8px);
+    transform: translateY(-4px);
 }
 
 body.dark-mode .category-item {
