@@ -32,7 +32,8 @@
         </nav>
     </header>
 
-    <div class="article-content">
+    <div class="article-layout-container">
+        <div class="article-content">
         <span class="category-tag">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             Nitq inkişafı
@@ -181,19 +182,6 @@
             </button>
         </div>
 
-        <div class="article-rating">
-            <h3>Bu məqaləni qiymətləndirin</h3>
-            <div class="rating-stars">
-                <span data-rating="5">★</span>
-                <span data-rating="4">★</span>
-                <span data-rating="3">★</span>
-                <span data-rating="2">★</span>
-                <span data-rating="1">★</span>
-            </div>
-            <p id="avgRating" class="rating-message" style="margin-top: 5px; opacity: 0.8; font-size: 0.9rem;"></p>
-            <p id="ratingMessage" class="rating-message"></p>
-        </div>
-
         <div class="comments-section">
             <h3>Şərhlər</h3>
             <div id="commentsList" class="comments-list">
@@ -205,6 +193,26 @@
                 <button type="submit" class="btn">Şərh yaz</button>
             </form>
         </div>
+        
+        <aside class="article-sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Oxşar Məqalələr</h3>
+                <div class="sidebar-grid">
+                    <a href="usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html" class="project-card reveal">
+                        <img src="../images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg" alt="Beyin inkişafı" class="card-image">
+                        <h3>Uşaqların beyin inkişafı üçün nə etmək lazımdır?</h3>
+                        <p>Erkən yaşda beyin inkişafını dəstəkləyən ən effektiv üsullar və tövsiyələr.</p>
+                        <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
+                    </a>
+                    <a href="usaqlarin_asude_vaxtinin_semererli_kecirilmesi_nece_temin_olunmalidir.html" class="project-card reveal">
+                        <img src="../images/usaqlarin_asude_vaxtinin_semererli_kecirilmesi_nece_temin_olunmalidir.jpg" alt="Uşaqların asudə vaxtı" class="card-image">
+                        <h3>Uşaqların asudə vaxtının səmərəli keçirilməsi necə təmin olunmalıdır?</h3>
+                        <p>Səmərəli asudə vaxtın təşkili, fiziki və intellektual oyunların faydaları haqqında ətraflı məqalə.</p>
+                        <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <!-- Axtarış Overlay -->
@@ -261,7 +269,7 @@
     <script src="../script.js" type="module"></script>
     <script src="../firebase-views.js" type="module"></script>
     <script src="../firebase-likes.js" type="module"></script>
-    <script src="../firebase-ratings.js" type="module"></script>
+
     <script src="../firebase-comments.js" type="module"></script>
 </body>
 </html>

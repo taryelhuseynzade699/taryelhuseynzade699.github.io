@@ -32,7 +32,8 @@
         </nav>
     </header>
 
-    <div class="article-content">
+    <div class="article-layout-container">
+        <div class="article-content">
         <span class="category-tag">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.92 16A8.962 8.962 0 0 0 22 12c0-4.42-3.58-8-8-8s-8 3.58-8 8c0 1.22.28 2.35.78 3.33L4 20l4.67-1.33c.98.5 2.11.78 3.33.78 4.42 0 8-3.58 8-8Z"/></svg>
             Sağlamlıq
@@ -155,25 +156,28 @@
                 <button type="submit" class="btn">Şərh yaz</button>
             </form>
         </div>
-    </div>
-
-    <section class="section">
-        <h2 class="section-title">Oxşar Məqalələr</h2>
-        <div class="projects-grid">
-            <a href="usaqlarin_duzgun_qidalanmasi_nece_olmalidir.html" class="project-card reveal">
-                <img src="../images/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.jpg" alt="Uşaqların düzgün qidalanması" class="card-image">
-                <h3>Uşaqların düzgün qidalanması necə olmalıdır?</h3>
-                <p>Uşaqların sağlam böyüməsi üçün balanslı qidalanma və valideynlərin diqqət etməli olduğu məqamlar.</p>
-                <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
-            </a>
-            <a href="usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html" class="project-card reveal">
-                <img src="../images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg" alt="Beyin inkişafı" class="card-image">
-                <h3>Uşaqların beyin inkişafı üçün nə etmək lazımdır?</h3>
-                <p>Erkən yaşlarda beyin inkişafını dəstəkləyən amillər, oyunlar və düzgün qidalanma haqqında.</p>
-                <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
-            </a>
         </div>
-    </section>
+        
+        <aside class="article-sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Oxşar Məqalələr</h3>
+                <div class="sidebar-grid">
+                    <a href="usaqlarin_duzgun_qidalanmasi_nece_olmalidir.html" class="project-card reveal">
+                        <img src="../images/usaqlarin_duzgun_qidalanmasi_nece_olmalidir.jpg" alt="Uşaqların düzgün qidalanması" class="card-image">
+                        <h3>Uşaqların düzgün qidalanması necə olmalıdır?</h3>
+                        <p>Uşaqların sağlam böyüməsi üçün balanslı qidalanma və valideynlərin diqqət etməli olduğu məqamlar.</p>
+                        <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
+                    </a>
+                    <a href="usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.html" class="project-card reveal">
+                        <img src="../images/usaqlarin_beyin_inkisafi_ucun_ne_etmek_lazimdir.jpg" alt="Beyin inkişafı" class="card-image">
+                        <h3>Uşaqların beyin inkişafı üçün nə etmək lazımdır?</h3>
+                        <p>Erkən yaşlarda beyin inkişafını dəstəkləyən amillər, oyunlar və düzgün qidalanma haqqında.</p>
+                        <span class="btn" style="margin-top: 15px; font-size: 0.9rem;">Ardını oxu</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </div>
 
     <section class="section">
         <h2 class="section-title">Ən Yaxşı Məqalələr</h2>
@@ -241,7 +245,7 @@
     <script src="../script.js" type="module"></script>
     <script src="../firebase-views.js" type="module"></script>
     <script src="../firebase-likes.js" type="module"></script>
-    <script src="../firebase-ratings.js" type="module"></script>
+
     <script src="../firebase-comments.js" type="module"></script>
 </body>
 </html>

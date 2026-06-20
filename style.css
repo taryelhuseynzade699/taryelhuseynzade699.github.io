@@ -2248,3 +2248,121 @@ body.dark-mode .custom-modal {
 .project-card:hover::before, .btn:hover::before, .modal-btn:hover::before, .voice-search-btn:hover::before, .reply-btn:hover::before, .like-btn:hover::before, .delete-btn:hover::before, .skip-btn:hover::before, .play-pause-btn:hover::before, .speed-btn:hover::before, .hamburger:hover::before, .clear-search:hover::before {
     opacity: 1;
 }
+
+/* --- Article Sidebar Layout --- */
+.article-layout-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    align-items: start;
+}
+
+.article-layout-container .article-content {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    max-width: 800px;
+}
+
+.article-sidebar {
+    width: 350px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 90px;
+}
+
+.sidebar-section {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    margin-bottom: 30px;
+}
+
+body.dark-mode .sidebar-section {
+    background: rgba(15, 23, 42, 0.75);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.sidebar-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #000;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+body.dark-mode .sidebar-title {
+    color: #ffffff;
+}
+
+.sidebar-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Sidebar cards customization */
+.article-sidebar .project-card {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px;
+}
+
+body.dark-mode .article-sidebar .project-card {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.article-sidebar .card-image {
+    height: 140px;
+    margin-bottom: 10px;
+}
+
+.article-sidebar h3 {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.article-sidebar p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .article-layout-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .article-layout-container .article-content {
+        max-width: 800px;
+        width: 100%;
+    }
+    
+    .article-sidebar {
+        width: 100%;
+        max-width: 800px;
+        position: static;
+    }
+}
