@@ -400,7 +400,7 @@ footer {
 .article-img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 20px;
     display: block;
 }
@@ -2364,5 +2364,44 @@ body.dark-mode .article-sidebar .project-card {
         width: 100%;
         max-width: 800px;
         position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-layout-container {
+        padding: 0 10px;
+        margin: 20px auto;
+    }
+
+    .article-content {
+        padding: 25px 15px;
+        border-radius: 12px;
+    }
+
+    .article-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .article-content p {
+        font-size: 1rem;
+    }
+
+    .article-content img, .article-img {
+        width: calc(100% + 30px) !important;
+        margin-left: -15px;
+        max-width: none !important;
+        border-radius: 10px;
+    }
+
+    .article-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-content ul, .article-content ol {
+        padding-left: 20px;
+        margin-bottom: 15px;
     }
 }
