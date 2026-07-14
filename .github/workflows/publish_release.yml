@@ -1,15 +1,13 @@
 name: Publish Releases
 
-on:
-  push:
-    tags:
-      - "v*.*.*"
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7.0.0
       - name: Release
         uses: softprops/action-gh-release@v3
+        if: github.ref_type == 'tag'
