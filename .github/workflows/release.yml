@@ -1,20 +1,24 @@
-name: Create Release
+name: Auto Release Notes
 
 on:
-  push:
-    tags:
-      - 'v*' # Triggers on tags like v1, v1.2, v1.2.1
+  release:
+    types: [created]
+
+permissions:
+  contents: write
 
 jobs:
-  release:
+  release-notes:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@main
-
-      - name: Create GitHub Release
-        uses: ncipollo/release-action@main
+      - uses: actions/checkout@v7.0.0
         with:
-          generateReleaseNotes: true
+          fetch-depth: 0
+
+      - name: Generate and update release notes
+        uses: nooblk-98/copilot-release-notes-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          copilot_model: gpt-4o
+          tag_name: ${{ github.event.release.tag_name }}
+          target_commitish: ${{ github.event.release.target_commitish }}
