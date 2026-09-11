@@ -1,0 +1,20 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers on tags like v1, v1.2, v1.2.1
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@main
+        with:
+          generateReleaseNotes: true
