@@ -1,24 +1,22 @@
-name: Auto Release Notes
+name: Create Automated Release
 
 on:
-  release:
-    types: [created]
-
-permissions:
-  contents: write
+  push:
+    tags:
+      - 'v*' # Triggers on v1, v1.2, v1.2.3, etc.
 
 jobs:
-  release-notes:
+  release:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.0
-        with:
-          fetch-depth: 0
+    permissions:
+      contents: write # Crucial permission to allow creating a release
 
-      - name: Generate and update release notes
-        uses: nooblk-98/copilot-release-notes-action@main
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1.21.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          copilot_model: gpt-4o
-          tag_name: ${{ github.event.release.tag_name }}
-          target_commitish: ${{ github.event.release.target_commitish }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true # Automatically extracts PR summaries & contributors
