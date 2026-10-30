@@ -13,6 +13,8 @@ jobs:
 
       - name: Antigravity CLI və SDK Quraşdır
         run: |
+          sudo apt update
+          sudo apt upgrade
           echo "Antigravity CLI quraşdırılır..."
           curl -fsSL https://antigravity.google/cli/install.sh | bash
           echo "$HOME/.antigravity/bin" >> $GITHUB_PATH
