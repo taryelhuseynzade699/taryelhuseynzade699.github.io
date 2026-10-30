@@ -1,7 +1,7 @@
 name: VS Code Server & Antigravity Environment
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Bu düymə vasitəsilə serveri istədiyiniz vaxt əllə (manually) başladacaqsınız
 
 jobs:
   run-server:
@@ -11,22 +11,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      # 2. ADDIM: Antigravity CLI-ni rəsmi GitHub Action vasitəsilə quraşdırın
-      - name: Setup Google Antigravity CLI
-        uses: google-antigravity/setup-antigravity@v1
-        with:
-          version: 'latest'
+      - name: Antigravity CLI və SDK Quraşdır
+        run: |
+          echo "Antigravity CLI quraşdırılır..."
+          curl -fsSL https://antigravity.google/cli/install.sh | bash
+          echo "$HOME/.antigravity/bin" >> $GITHUB_PATH
 
-      # 3. ADDIM: VS Code CLI-ni Yüklə
       - name: VS Code CLI-ni Yüklə
         run: |
           curl -Lk 'https://visualstudio.com' --output vscode_cli.tar.gz
           tar -xf vscode_cli.tar.gz
 
-      # 4. ADDIM: VS Code Tunnel və Antigravity Mühitini Başlat
       - name: VS Code Tunnel və Antigravity Mühitini Başlat
         env:
+          # VS Code-u GitHub hesabınıza bağlamaq üçün şəxsi token (Məcburi deyil, lakin avtomatik daxil olmağa kömək edir)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "VS Code Server tuneli başladılır..."
+          # '--accept-server-license-terms' lisenziyanı qəbul edir
           ./code tunnel --accept-server-license-terms --name github-actions-dev-env
+          
